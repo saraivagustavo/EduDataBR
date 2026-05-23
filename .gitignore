@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Dados
+data/raw/
+data/interim/
+data/processed/
+*.csv
+*.zip
+*.parquet
+
+# Ambiente
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Sistema
+.DS_Store
+Thumbs.db
