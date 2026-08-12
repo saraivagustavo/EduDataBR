@@ -110,60 +110,141 @@ Essas informações serão utilizadas posteriormente para investigar possíveis 
 
 | Variável | Tipo | Descrição | Domínio observado | Nulos | Tratamento | Utilização | Observações |
 |---|---|---|---|---|---|---|---|
-| `q006` | `VARCHAR` | Faixa de renda mensal da família do participante, conforme categorias apresentadas no questionário socioeconômico. | `A` a `Q` | Não identificados | A definir | Análise socioeconômica e comparação de desempenho | Variável categórica com 17 categorias distintas na base analisada. |
-| `q025` | `VARCHAR` | Informação relacionada à disponibilidade de acesso à internet no domicílio do participante. | `A` e `B` | Não identificados | A definir | Análise de acesso à tecnologia e comparação de desempenho | Variável categórica com 2 categorias distintas na base analisada. |
+| `q006` | `VARCHAR` | Faixa de renda mensal da família do participante, conforme categorias apresentadas no questionário socioeconômico. | `A` a `Q` | 0 | A definir | Análise socioeconômica e comparação de desempenho | Variável categórica com 17 categorias distintas. |
+| `q025` | `VARCHAR` | Informação relacionada à disponibilidade de acesso à internet no domicílio do participante. | `A` e `B` | 0 | A definir | Análise de acesso à tecnologia e comparação de desempenho | Variável categórica com 2 categorias distintas. |
 
-### 5.3.1 Distribuição observada — `q006`
+### 5.3.1 Domínio — `q006`
 
-A variável `q006` apresentou 17 categorias distintas na base analisada.
+A variável `q006` representa a faixa de renda mensal da família do participante, conforme as categorias apresentadas no questionário socioeconômico do ENEM.
 
-| Código | Quantidade de registros |
-|---|---:|
-| `A` | 268.053 |
-| `B` | 1.245.271 |
-| `C` | 650.942 |
-| `D` | 437.366 |
-| `E` | 293.994 |
-| `F` | 171.344 |
-| `G` | 261.327 |
-| `H` | 139.279 |
-| `I` | 85.970 |
-| `J` | 75.179 |
-| `K` | 59.631 |
-| `L` | 39.596 |
-| `M` | 33.626 |
-| `N` | 41.565 |
-| `O` | 41.218 |
-| `P` | 38.105 |
-| `Q` | 51.489 |
+| Código | Categoria de renda mensal familiar |
+|---|---|
+| `A` | Nenhuma renda |
+| `B` | Até R$ 1.320,00 |
+| `C` | De R$ 1.320,01 até R$ 1.980,00 |
+| `D` | De R$ 1.980,01 até R$ 2.640,00 |
+| `E` | De R$ 2.640,01 até R$ 3.300,00 |
+| `F` | De R$ 3.300,01 até R$ 3.960,00 |
+| `G` | De R$ 3.960,01 até R$ 5.280,00 |
+| `H` | De R$ 5.280,01 até R$ 6.600,00 |
+| `I` | De R$ 6.600,01 até R$ 7.920,00 |
+| `J` | De R$ 7.920,01 até R$ 9.240,00 |
+| `K` | De R$ 9.240,01 até R$ 10.560,00 |
+| `L` | De R$ 10.560,01 até R$ 11.880,00 |
+| `M` | De R$ 11.880,01 até R$ 13.200,00 |
+| `N` | De R$ 13.200,01 até R$ 15.840,00 |
+| `O` | De R$ 15.840,01 até R$ 19.800,00 |
+| `P` | De R$ 19.800,01 até R$ 26.400,00 |
+| `Q` | Acima de R$ 26.400,00 |
 
-### 5.3.2 Distribuição observada — `q025`
+### 5.3.2 Distribuição da variável `q006`
 
-A variável `q025` apresentou duas categorias distintas na base analisada.
+A distribuição abaixo foi obtida diretamente a partir da tabela `enem_microdados` no PostgreSQL.
 
-| Código | Quantidade de registros |
-|---|---:|
-| `A` | 375.504 |
-| `B` | 3.558.451 |
+| Código | Categoria | Quantidade | Percentual |
+|---|---|---:|---:|
+| `A` | Nenhuma renda | 268.053 | 6,81% |
+| `B` | Até R$ 1.320,00 | 1.245.271 | 31,65% |
+| `C` | De R$ 1.320,01 até R$ 1.980,00 | 650.942 | 16,55% |
+| `D` | De R$ 1.980,01 até R$ 2.640,00 | 437.366 | 11,12% |
+| `E` | De R$ 2.640,01 até R$ 3.300,00 | 293.994 | 7,47% |
+| `F` | De R$ 3.300,01 até R$ 3.960,00 | 171.344 | 4,36% |
+| `G` | De R$ 3.960,01 até R$ 5.280,00 | 261.327 | 6,64% |
+| `H` | De R$ 5.280,01 até R$ 6.600,00 | 139.279 | 3,54% |
+| `I` | De R$ 6.600,01 até R$ 7.920,00 | 85.970 | 2,19% |
+| `J` | De R$ 7.920,01 até R$ 9.240,00 | 75.179 | 1,91% |
+| `K` | De R$ 9.240,01 até R$ 10.560,00 | 59.631 | 1,52% |
+| `L` | De R$ 10.560,01 até R$ 11.880,00 | 39.596 | 1,01% |
+| `M` | De R$ 11.880,01 até R$ 13.200,00 | 33.626 | 0,85% |
+| `N` | De R$ 13.200,01 até R$ 15.840,00 | 41.565 | 1,06% |
+| `O` | De R$ 15.840,01 até R$ 19.800,00 | 41.218 | 1,05% |
+| `P` | De R$ 19.800,01 até R$ 26.400,00 | 38.105 | 0,97% |
+| `Q` | Acima de R$ 26.400,00 | 51.489 | 1,31% |
+
+**Total:** 3.933.955 registros.
+
+### 5.3.3 Domínio — `q025`
+
+A variável `q025` indica se o participante possui acesso à internet em seu domicílio, conforme as categorias apresentadas no questionário socioeconômico do ENEM.
+
+| Código | Categoria |
+|---|---|
+| `A` | Não |
+| `B` | Sim |
+
+### 5.3.4 Distribuição da variável `q025`
+
+A distribuição abaixo foi obtida diretamente a partir da tabela `enem_microdados` no PostgreSQL.
+
+| Código | Categoria | Quantidade | Percentual |
+|---|---|---:|---:|
+| `A` | Não | 375.504 | 9,55% |
+| `B` | Sim | 3.558.451 | 90,45% |
+
+**Total:** 3.933.955 registros.
+
+### 5.3.5 Qualidade dos dados
+
+As variáveis `q006` e `q025` foram verificadas quanto à presença de valores `NULL` na tabela analisada.
+
+| Variável | Total de registros | Preenchidos | Nulos |
+|---|---:|---:|---:|
+| `q006` | 3.933.955 | 3.933.955 | 0 |
+| `q025` | 3.933.955 | 3.933.955 | 0 |
+
+Não foram identificados valores `NULL` nas duas variáveis durante a análise realizada.
 
 ### Observações
 
-- `q006` apresenta 17 categorias distintas (`A` a `Q`) na base analisada.
-- `q025` apresenta duas categorias distintas (`A` e `B`) na base analisada.
-- Não foram identificados valores `NULL` nas duas variáveis durante a consulta realizada.
-- As quantidades apresentadas foram obtidas diretamente por meio de consultas SQL realizadas no PostgreSQL utilizado pelo projeto.
+- `q006` apresenta 17 categorias distintas (`A` a `Q`).
+- `q025` apresenta 2 categorias distintas (`A` e `B`).
+- As quantidades e percentuais apresentados foram obtidos diretamente por meio de consultas SQL realizadas no PostgreSQL.
+- Ambas as variáveis possuem 3.933.955 registros preenchidos na tabela analisada.
 - Os códigos das categorias foram mantidos em seu formato original.
-- A interpretação dos códigos será realizada com base na documentação oficial do questionário do ENEM 2023.
-- O tratamento de categorias especiais ou agrupamentos será definido somente após a análise de sua distribuição e finalidade analítica.
+- O tratamento das variáveis será definido nas etapas posteriores do projeto.
 - Nenhuma categoria será agrupada previamente sem uma justificativa analítica documentada.
+- As distribuições apresentadas nesta seção são descritivas e não representam, isoladamente, relações de causa e efeito.
 
 ---
 
 ## 5.4 Características Educacionais
 
-| Variável | Tipo | Descrição | Domínio | Nulos | Tratamento | Utilização | Observações |
+As variáveis desta categoria representam características relacionadas ao contexto educacional dos participantes do ENEM.
+
+Essas informações poderão ser utilizadas para investigar diferenças de desempenho entre participantes com diferentes características e trajetórias educacionais.
+
+| Variável | Tipo | Descrição | Domínio observado | Nulos | Tratamento | Utilização | Observações |
 |---|---|---|---|---|---|---|---|
-| `PREENCHER` | — | — | — | — | — | — | — |
+| `tp_escola` | `INTEGER` | Tipo de escola do participante. | Códigos numéricos definidos pelo INEP | A validar | A definir | Análise do desempenho por tipo de escola | Variável categórica codificada. |
+
+### 5.4.1 Domínio — `tp_escola`
+
+A variável `tp_escola` representa o tipo de escola associado ao participante, conforme a classificação utilizada nos microdados do ENEM.
+
+| Código | Categoria |
+|---|---|
+| `A` | Não respondeu |
+| `B` | Pública |
+| `C` | Privada |
+
+> Os códigos e suas respectivas categorias devem ser confirmados a partir da documentação oficial dos Microdados do ENEM 2023 antes de serem utilizados nas análises.
+
+### 5.4.2 Distribuição da variável `tp_escola`
+
+A distribuição da variável será obtida diretamente a partir da tabela `enem_microdados` no PostgreSQL.
+
+```sql
+SELECT
+    tp_escola,
+    COUNT(*) AS quantidade,
+    ROUND(
+        COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (),
+        2
+    ) AS percentual
+FROM enem_microdados
+GROUP BY tp_escola
+ORDER BY tp_escola;
+```
 
 ---
 
