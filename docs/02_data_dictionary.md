@@ -246,4 +246,4 @@ Das 76 colunas originais do INEP, 18 variáveis estratégicas foram selecionadas
 |---|---|---|
 | 2026-08-10 | Gustavo Saraiva | Estruturação inicial do dicionário de dados. |
 | 2026-08-12 | Gustavo Saraiva | Documentação de características socioeconômicas (`q006`, `q025`). |
-| 2026-09-21 | Pair Programming | Conclusão integral do dicionário: correção dos códigos de `tp_escola` (1, 2, 3), inclusão de `sg_uf_prova`, documentação de participação e notas com distribuições reais, justificativa das variáveis selecionadas/excluídas e plano de variáveis derivadas. |
+| 2026-09-21 | Gustavo Saraiva | Conclusão integral do dicionário: correção dos códigos de `tp_escola` (1, 2, 3), inclusão de `sg_uf_prova`, documentação de participação e notas com distribuições reais, justificativa das variáveis selecionadas/excluídas e plano de variáveis derivadas. |
