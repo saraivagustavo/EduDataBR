@@ -24,9 +24,9 @@ flowchart LR
 | Sprint | Nome | Foco Principal | Status |
 |---|---|---|:---:|
 | **Sprint 1** | Estruturação e Ambiente | Configuração de ambiente, Git, PostgreSQL e obtenção dos dados | ✅ Concluída |
-| **Sprint 2** | Entendimento dos Dados (Data Understanding) | Dicionário de dados, redução de variáveis e qualidade | 🟡 **Em Andamento** *(Ponto Atual)* |
-| **Sprint 3** | Engenharia & SQL Analytics | Carga no PostgreSQL, criação de queries analíticas e métricas | 🟡 Parcialmente Concluída |
-| **Sprint 4** | Limpeza & Análise Exploratória (EDA) | Tratamento fino, estatística descritiva, correlações e visualizações | ⚪ A Iniciar |
+| **Sprint 2** | Entendimento dos Dados (Data Understanding) | Dicionário de dados, perguntas de negócio, hipóteses e qualidade | ✅ Concluída |
+| **Sprint 3** | Engenharia & SQL Analytics | Carga no PostgreSQL, índices, views analíticas e queries avançadas | ✅ Concluída |
+| **Sprint 4** | Limpeza & Análise Exploratória (EDA) | Tratamento fino, formato parquet, estatística descritiva e gráficos | 🟡 **Em Andamento** *(Ponto Atual)* |
 | **Sprint 5** | Engenharia de Features & Machine Learning | Novas variáveis, modelos de regressão/classificação e explicabilidade | ⚪ A Iniciar |
 | **Sprint 6** | Dashboard Interativo (Data App) | Interface em Streamlit com filtros dinâmicos e gráficos interativos | ⚪ A Iniciar |
 | **Sprint 7** | Engenharia de Software & Modularização | Migração de notebooks para `src/`, pipeline reproduzível e testes | ⚪ A Iniciar |
@@ -63,18 +63,20 @@ flowchart LR
 - [x] Geração do arquivo intermediário reduzido (`data/interim/microdados_enem_2023_reduzido.csv`).
 - [x] Primeira exploração estatística e volumetria em amostra de 100k linhas (`notebooks/01_exploracao_inicial.ipynb`).
 - [x] Mapeamento de variáveis demográficas e socioeconômicas no dicionário (`Q006` e `Q025`).
-- [ ] Concluir o preenchimento de `docs/02_data_dictionary.md` (variáveis de presença e notas).
-- [ ] Alinhar codificação de `tp_escola` no dicionário com os códigos do INEP (1 = Não informado, 2 = Pública, 3 = Privada).
-- [ ] Definir as perguntas de negócio norteadoras em `docs/04_business_questions.md`.
-- [ ] Formular as hipóteses iniciais em `docs/05_hypotheses.md`.
-- [ ] Mapear regras de integridade e qualidade em `docs/03_data_quality.md`.
+- [x] Conclusão integral do preenchimento de `docs/02_data_dictionary.md` (variáveis de presença e notas com dados reais).
+- [x] Alinhamento da codificação de `tp_escola` no dicionário com os códigos do INEP (1 = Não informado, 2 = Pública, 3 = Privada).
+- [x] Definição das perguntas de negócio norteadoras em `docs/04_business_questions.md`.
+- [x] Formulação das hipóteses científicas testáveis ($H_0$ vs $H_1$) em `docs/05_hypotheses.md`.
+- [x] Auditoria e mapeamento de regras de integridade e qualidade em `docs/03_data_quality.md`.
 
 **Entregáveis:**
 - `sql/00_clean_csv.ipynb`
 - `data/interim/microdados_enem_2023_reduzido.csv`
 - `notebooks/01_exploracao_inicial.ipynb`
-- `docs/02_data_dictionary.md` (finalizado)
-- `docs/04_business_questions.md` e `docs/05_hypotheses.md`
+- `docs/02_data_dictionary.md` (concluído)
+- `docs/04_business_questions.md`
+- `docs/05_hypotheses.md`
+- `docs/03_data_quality.md`
 
 ---
 
@@ -82,39 +84,44 @@ flowchart LR
 > **Objetivo:** Estruturar o banco de dados relacional e extrair métricas agregadas via consultas SQL analíticas.
 
 - [x] Criação do banco de dados `edudatabr` (`sql/01_create_database.sql`).
-- [x] DDL da tabela `enem_microdados` com tipagem apropriada (`sql/02_create_table_enem.sql`).
-- [x] Script de carga rápida via comando `COPY` (`sql/03_load_data.sql`).
-- [x] Desenvolvimento das 5 consultas analíticas iniciais em `sql/queries/`:
-  - `01_visao_geral.sql`: Totais de registros e participantes presentes em todas as provas.
-  - `02_notas_por_estados.sql`: Médias das notas por UF.
-  - `03_escola_publica_privada.sql`: Comparativo público vs. privado.
-  - `04_desempenho_por_renda.sql`: Médias das notas pelas 17 faixas de renda familiar.
-  - `05_desempenho_acesso_internet.sql`: Médias das notas por acesso à internet.
-- [ ] Criação de Views analíticas para facilitar o consumo por ferramentas de BI/Python.
-- [ ] Criação de consultas avançadas com Window Functions (`RANK`, `DENSE_RANK`, `NTILE`) e CTEs.
-- [ ] Criação de índices estratégicos no banco (`sg_uf_prova`, `tp_escola`, `q006`).
+- [x] DDL refinado da tabela `enem_microdados` com Primary Key e constraints (`sql/02_create_table_enem.sql`).
+- [x] Script de carga rápida via comando `COPY` e `\copy` (`sql/03_load_data.sql`).
+- [x] Criação de índices estratégicos B-Tree e índice parcial analítico (`sql/04_create_indexes.sql`).
+- [x] Criação de Views analíticas na camada semântica (`sql/views/`):
+  - `01_vw_enem_presentes.sql`
+  - `02_vw_resumo_por_uf.sql`
+  - `03_vw_desempenho_socioeconomico.sql`
+- [x] Desenvolvimento de consultas analíticas com CTEs e Window Functions (`sql/queries/`):
+  - Consultas 01 a 05: Consultas agregadas fundamentais.
+  - Consulta 06: Ranking com `RANK()`, `NTILE(4)` e desvios da média nacional (PQ5).
+  - Consulta 07: Impacto da internet controlado por faixa de renda familiar (PQ2).
+  - Consulta 08: Gap entre escola pública e privada estratificado por renda (PQ4).
+  - Consulta 09: Disparidade de gênero por área do conhecimento (PQ6).
+  - Consulta 10: Taxa de evasão entre os domingos de prova (PQ8).
+- [x] Documentação técnica completa do módulo relacional em `sql/README.md`.
 
 **Entregáveis:**
-- Scripts DDL e DML em `sql/`
-- Views e queries analíticas avançadas em `sql/queries/`
+- Scripts DDL, DML e Índices em `sql/`
+- Views analíticas em `sql/views/`
+- 10 Consultas analíticas avançadas em `sql/queries/`
+- `sql/README.md`
 
 ---
 
 ### Sprint 4 — Limpeza & Análise Exploratória Aprofundada (EDA)
-> **Objetivo:** Tratar inconsistências, tratar valores ausentes de participantes faltantes e realizar análise estatística descritiva e visual aprofundada em Python.
+> **Objetivo:** Tratar inconsistências, particionar a base analítica em formato Parquet de alta performance e realizar análise estatística descritiva e visual aprofundada em Python.
 
 - [ ] Desenvolver `notebooks/02_limpeza_tratamento.ipynb`:
   - Filtragem da base para participantes que realizaram todas as provas (`TP_PRESENCA_* == 1`).
-  - Tratamento de notas nulas / outliers.
-  - Conversão para tipos otimizados de memória (categorias e inteiros de menor precisão).
-  - Exportação da base analítica tratada para `data/processed/enem_2023_analitico.parquet` (formato leve e rápido).
+  - Otimização de tipos de dados em memória (`category`, `int8`, `float32`).
+  - Exportação da base analítica tratada para `data/processed/enem_2023_analitico.parquet` (formato colunar leve e ultra-rápido).
 - [ ] Desenvolver `notebooks/03_analise_exploratoria.ipynb`:
   - Matriz de correlação entre notas das 5 áreas do conhecimento.
   - Boxplots e distribuições por nível de renda familiar (`Q006`).
   - Análise de impacto do acesso domiciliar à internet (`Q025`) controlado por renda.
   - Disparidade educacional por rede de ensino (Pública vs Privada).
   - Análise geográfica do desempenho por Macrorregião e UF.
-  - Exportação de figuras geradas para `reports/figures/`.
+  - Salvamento de gráficos e evidências em `reports/figures/`.
 
 **Entregáveis:**
 - `notebooks/02_limpeza_tratamento.ipynb`
@@ -129,9 +136,9 @@ flowchart LR
 
 - [ ] Engenharia de Atributos:
   - `nu_nota_media_geral`: Média aritmética simples ou ponderada das 5 provas.
-  - `in_faixa_alta_renda`: Agrupamento categórico das 17 faixas de renda em classes socioeconômicas consolidadas (Baixa, Média, Alta).
+  - `in_faixa_alta_renda`: Agrupamento categórico das 17 faixas de renda em classes consolidadas (Baixa, Média, Alta).
   - `in_vulnerabilidade`: Índice composto (ausência de internet + baixa renda).
-  - `target_classificacao`: Classificação de candidatos com desempenho acima da média / nota de corte.
+  - `target_classificacao`: Classificação de candidatos com alto rendimento.
 - [ ] Modelagem Preditiva (`notebooks/04_machine_learning.ipynb`):
   - **Problema de Regressão**: Prever a nota média geral com base nas características socioeconômicas e educacionais.
     - Modelos: Regressão Linear, Ridge, Random Forest e LightGBM/XGBoost.
@@ -159,7 +166,7 @@ flowchart LR
 
 **Entregáveis:**
 - `app/streamlit_app.py`
-- Arquivos de configuração do Streamlit (`.streamlit/config.toml` caso necessário)
+- Arquivos de configuração do Streamlit
 
 ---
 
@@ -173,7 +180,7 @@ flowchart LR
 - [ ] `src/visualization/`: Funções padronizadas de plotagem.
 - [ ] `src/utils/`: Conexão com banco de dados e helpers gerais.
 - [ ] `main.py`: Script orquestrador executável via linha de comando para rodar o pipeline completo.
-- [ ] Testes unitários básicos em `tests/` com `pytest` (ex: validação de schema e ausência de nulos inesperados).
+- [ ] Testes unitários básicos em `tests/` com `pytest`.
 
 **Entregáveis:**
 - Scripts modulares em `src/`
@@ -187,7 +194,7 @@ flowchart LR
 
 - [ ] Redação do relatório executivo em `reports/final_report.md` (Contexto, Metodologia, Principais Descobertas, Implicações e Limitações).
 - [ ] Deploy do dashboard no **Streamlit Community Cloud** (com link público).
-- [ ] Atualização completa do `README.md` principal:
+- [ ] Atualização final do `README.md` principal:
   - Prints e GIFs demonstrativos do dashboard.
   - Resumo dos principais insights educacionais.
   - Instruções claras de execução e reprodução.
