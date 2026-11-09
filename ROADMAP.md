@@ -26,8 +26,8 @@ flowchart LR
 | **Sprint 1** | Estruturação e Ambiente | Configuração de ambiente, Git, PostgreSQL e obtenção dos dados | ✅ Concluída |
 | **Sprint 2** | Entendimento dos Dados (Data Understanding) | Dicionário de dados, perguntas de negócio, hipóteses e qualidade | ✅ Concluída |
 | **Sprint 3** | Engenharia & SQL Analytics | Carga no PostgreSQL, índices, views analíticas e queries avançadas | ✅ Concluída |
-| **Sprint 4** | Limpeza & Análise Exploratória (EDA) | Tratamento fino, formato parquet, estatística descritiva e gráficos | 🟡 **Em Andamento** *(Ponto Atual)* |
-| **Sprint 5** | Engenharia de Features & Machine Learning | Novas variáveis, modelos de regressão/classificação e explicabilidade | ⚪ A Iniciar |
+| **Sprint 4** | Limpeza & Análise Exploratória (EDA) | Tratamento fino, formato parquet, estatística descritiva e gráficos | ✅ Concluída |
+| **Sprint 5** | Engenharia de Features & Machine Learning | Novas variáveis, modelos de regressão/classificação e explicabilidade | 🟡 **Em Andamento** *(Ponto Atual)* |
 | **Sprint 6** | Dashboard Interativo (Data App) | Interface em Streamlit com filtros dinâmicos e gráficos interativos | ⚪ A Iniciar |
 | **Sprint 7** | Engenharia de Software & Modularização | Migração de notebooks para `src/`, pipeline reproduzível e testes | ⚪ A Iniciar |
 | **Sprint 8** | Storytelling, Relatório Final & Portfólio | Relatório executivo de insights, deploy na nuvem e polimento do README | ⚪ A Iniciar |
@@ -111,11 +111,11 @@ flowchart LR
 ### Sprint 4 — Limpeza & Análise Exploratória Aprofundada (EDA)
 > **Objetivo:** Tratar inconsistências, particionar a base analítica em formato Parquet de alta performance e realizar análise estatística descritiva e visual aprofundada em Python.
 
-- [ ] Desenvolver `notebooks/02_limpeza_dados.ipynb`:
+- [x] Desenvolver `notebooks/02_limpeza_dados.ipynb`:
   - Filtragem da base para participantes que realizaram todas as provas (`TP_PRESENCA_* == 1`).
   - Otimização de tipos de dados em memória (`category`, `int8`, `float32`).
   - Exportação da base analítica tratada para `data/processed/enem_2023_analitico.parquet` (formato colunar leve e ultra-rápido).
-- [ ] Desenvolver `notebooks/03_analise_exploratoria.ipynb`:
+- [x] Desenvolver `notebooks/03_analise_exploratoria.ipynb`:
   - Matriz de correlação entre notas das 5 áreas do conhecimento.
   - Boxplots e distribuições por nível de renda familiar (`Q006`).
   - Análise de impacto do acesso domiciliar à internet (`Q025`) controlado por renda.

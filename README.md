@@ -313,29 +313,29 @@ Ao longo do projeto, todas as decisões técnicas, hipóteses, resultados e apre
 
 ## Sprint 2 — Data Understanding
 
-- [ ] Estudo do dicionário dos microdados.
-- [ ] Seleção das variáveis relevantes.
-- [ ] Construção do Data Dictionary.
-- [ ] Avaliação da qualidade dos dados.
+- [x] Estudo do dicionário dos microdados.
+- [x] Seleção das variáveis relevantes.
+- [x] Construção do Data Dictionary.
+- [x] Avaliação da qualidade dos dados.
 
 ---
 
 ## Sprint 3 — SQL Analytics
 
-- [ ] Criação do banco de dados definitivo.
-- [ ] Desenvolvimento de consultas analíticas.
-- [ ] Construção de Views.
-- [ ] Utilização de CTEs.
-- [ ] Geração dos primeiros insights.
+- [x] Criação do banco de dados definitivo.
+- [x] Desenvolvimento de consultas analíticas.
+- [x] Construção de Views.
+- [x] Utilização de CTEs.
+- [x] Geração dos primeiros insights.
 
 ---
 
 ## Sprint 4 — Exploratory Data Analysis
 
-- [ ] Estatísticas descritivas.
-- [ ] Distribuições.
-- [ ] Correlações.
-- [ ] Visualizações.
+- [x] Estatísticas descritivas.
+- [x] Distribuições.
+- [x] Correlações.
+- [x] Visualizações.
 
 ---
 
@@ -361,17 +361,17 @@ Ao longo do projeto, todas as decisões técnicas, hipóteses, resultados e apre
 
 | Item | Situação |
 |------|----------|
-| **Fase Atual** | Data Understanding |
-| **Etapa em Desenvolvimento** | Construção do Data Dictionary |
-| **Última Atualização** | Julho de 2026 |
+| **Fase Atual** | Sprint 5 — Machine Learning & Feature Engineering |
+| **Etapa em Desenvolvimento** | Engenharia de Atributos e Modelagem Preditiva |
+| **Última Atualização** | Novembro de 2026 |
 | **Status Geral** | 🟡 Em desenvolvimento |
 
 ### Próximos Passos
 
-- Documentar as variáveis selecionadas dos microdados.
-- Avaliar a qualidade da base de dados.
-- Definir as primeiras perguntas de negócio.
-- Iniciar as consultas analíticas em SQL.
+- Criação de variáveis derivadas (`classe_renda`, `in_vulnerabilidade`, nota média geral).
+- Treinamento e comparação de modelos preditivos (Regressão e Classificação).
+- Interpretabilidade de modelos via Feature Importance e SHAP Values.
+- Desenvolvimento do dashboard interativo em Streamlit.
 
 ---
 
