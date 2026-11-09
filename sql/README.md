@@ -73,7 +73,7 @@ ENCODING 'UTF8';
 -- Arquivo: sql/04_create_indexes.sql
 \i sql/04_create_indexes.sql
 ```
-*Destaque de Engenharia:* Além dos índices B-Tree tradicionais em `sg_uf_prova`, `tp_escola` e `q006`, foi implementado um **Índice Parcial** (`idx_enem_presentes_analitico`) que indexa exclusivamente os ~2,69 milhões de candidatos presentes, reduzindo drasticamente o tempo de varredura das queries analíticas.
+*Destaque de Engenharia:* Além dos índices B-Tree tradicionais em `sg_uf_prova`, `tp_escola` e `q006`, foi implementado um **Índice Parcial** (`idx_enem_presentes_analitico`) que indexa exclusivamente os ~2,68 milhões de candidatos presentes nas 4 provas, para acelerar as queries analíticas que usam esse filtro.
 
 ### Passo 5: Criar as Views Analíticas
 Execute os scripts da pasta `sql/views/` para disponibilizar a camada semântica simplificada.

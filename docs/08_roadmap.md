@@ -111,7 +111,7 @@ flowchart LR
 ### Sprint 4 — Limpeza & Análise Exploratória Aprofundada (EDA)
 > **Objetivo:** Tratar inconsistências, particionar a base analítica em formato Parquet de alta performance e realizar análise estatística descritiva e visual aprofundada em Python.
 
-- [ ] Desenvolver `notebooks/02_limpeza_tratamento.ipynb`:
+- [ ] Desenvolver `notebooks/02_limpeza_dados.ipynb`:
   - Filtragem da base para participantes que realizaram todas as provas (`TP_PRESENCA_* == 1`).
   - Otimização de tipos de dados em memória (`category`, `int8`, `float32`).
   - Exportação da base analítica tratada para `data/processed/enem_2023_analitico.parquet` (formato colunar leve e ultra-rápido).
@@ -124,7 +124,7 @@ flowchart LR
   - Salvamento de gráficos e evidências em `reports/figures/`.
 
 **Entregáveis:**
-- `notebooks/02_limpeza_tratamento.ipynb`
+- `notebooks/02_limpeza_dados.ipynb`
 - `data/processed/enem_2023_analitico.parquet`
 - `notebooks/03_analise_exploratoria.ipynb`
 - Gráficos em `reports/figures/`

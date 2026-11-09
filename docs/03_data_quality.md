@@ -126,14 +126,15 @@ Verificação das notas preenchidas quanto aos limites teóricos e identificaç�
 
 ## 4. Regras de Tratamento para a Etapa de Limpeza (Sprint 4)
 
-Com base nos diagnósticos levantados, definem-se as seguintes regras de negócio para processamento no notebook `02_limpeza_tratamento.ipynb`:
+Com base nos diagnósticos levantados, definem-se as seguintes regras de negócio para processamento no notebook `notebooks/02_limpeza_dados.ipynb`:
 
 ### Regra 1: Particionamento das Bases de Análise
 Para evitar vieses amostrais, o projeto trabalhará com duas visões complementares:
 - **Visão 1 — Base Populacional de Inscrições ($N = 3.933.955$):**
   - Utilizada para estudos de perfil demográfico, socioeconômico geral e análises de absenteísmo/evasão entre os dias de prova.
-- **Visão 2 — Base Analítica de Desempenho / Complete Cases ($N \approx 2.692.427$):**
+- **Visão 2 — Base Analítica de Desempenho / Complete Cases ($N = 2.678.264$):**
   - Restrita aos participantes presentes em **todas** as provas (`TP_PRESENCA_CN == 1` E `TP_PRESENCA_CH == 1` E `TP_PRESENCA_LC == 1` E `TP_PRESENCA_MT == 1`).
+  - O total é menor que o número de presentes no Dia 2 (2.692.427) porque **14.163** participantes fizeram o Dia 2 sem ter comparecido ao Dia 1.
   - Utilizada para análises correlacionais, distribuições de notas, comparativos público/privado e treinamento de Machine Learning.
 
 ### Regra 2: Otimização de Tipos de Dados em Memória
@@ -142,7 +143,7 @@ Para viabilizar processamento rápido em computadores pessoais e notebooks:
 - Converter `TP_SEXO`, `SG_UF_PROVA`, `Q006` e `Q025` para o tipo `category` do Pandas.
 - Converter `TP_FAIXA_ETARIA`, `TP_COR_RACA`, `TP_ESCOLA` e `TP_PRESENCA_*` para inteiros compactos (`int8`).
 - Converter notas para ponto flutuante de precisão simples (`float32`).
-- Exportar a base tratada em formato colunar **Apache Parquet** (`.parquet`), garantindo leitura até 10x mais rápida e redução drástica no consumo de disco.
+- Exportar a base tratada em formato colunar **Apache Parquet** (`.parquet`), com redução de memória, tamanho em disco e tempo de leitura **medidos e registrados** no notebook de limpeza.
 
 ---
 
@@ -151,3 +152,4 @@ Para viabilizar processamento rápido em computadores pessoais e notebooks:
 | Data | Auditor | Escopo | Resultado |
 |---|---|---|---|
 | 2026-09-21 | Pair Programming (Antigravity & Gustavo) | Auditoria integral das 18 colunas dos 3,93M de registros | Integridade 100% confirmada; nulos mapeados estritamente à presença; zero anomalias de domínio. |
+| 2026-11-09 | Revisão (Sprint 4) | Recontagem da base de casos completos | N corrigido de ≈ 2.692.427 para **2.678.264** (14.163 participantes presentes só no Dia 2). Identificados entre os presentes: 93.149 notas zero na Redação e 19.501 participantes com ao menos uma objetiva zerada. |

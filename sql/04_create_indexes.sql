@@ -26,7 +26,7 @@ CREATE INDEX IF NOT EXISTS idx_enem_presenca_todas
 ON enem_microdados (tp_presenca_cn, tp_presenca_ch, tp_presenca_lc, tp_presenca_mt);
 
 -- 7. Índice Parcial Avançado (Otimização PostgreSQL):
--- Indexa apenas os ~2,69 milhões de candidatos presentes em todas as provas,
+-- Indexa apenas os ~2,68 milhões de candidatos presentes em todas as provas,
 -- acelerando drasticamente queries analíticas que cruzam UF, escola e renda.
 CREATE INDEX IF NOT EXISTS idx_enem_presentes_analitico 
 ON enem_microdados (sg_uf_prova, tp_escola, q006)

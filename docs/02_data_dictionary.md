@@ -215,7 +215,7 @@ Das 76 colunas originais do INEP, 18 variáveis estratégicas foram selecionadas
 
 | Variável Original | Transformação | Variável Resultante | Motivo |
 |---|---|---|---|
-| `MICRODADOS_ENEM_2023.csv` | Seleção de 18 colunas com Pandas (`usecols`) e filtro de encoding | `microdados_enem_2023_reduzido.csv` | Reduzir uso de memória de ~3.5 GB para ~300 MB, viabilizando execução local ágil. |
+| `MICRODADOS_ENEM_2023.csv` | Seleção de 18 colunas com Pandas (`usecols`) e filtro de encoding | `microdados_enem_2023_reduzido.csv` | Reduzir o arquivo de 1.695 MB (76 colunas) para 243 MB (18 colunas), viabilizando execução local ágil. |
 | `tp_sexo`, `sg_uf_prova` | Padronização em tipos SQL `CHAR(1)` e `CHAR(2)` | Campos relacionais | Otimização de armazenamento e integridade referencial no PostgreSQL. |
 | `nu_nota_*` | Mapeamento para `NUMERIC(6,2)` | Campos relacionais | Precisão decimal exata para cálculos de média e dispersão. |
 

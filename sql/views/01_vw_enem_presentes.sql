@@ -1,5 +1,5 @@
 -- View analítica: vw_enem_presentes
--- Filtra exclusivamente candidatos presentes em todas as 4 provas e na redação (~2,69 milhões de registros)
+-- Filtra exclusivamente candidatos presentes em todas as 4 provas e na redação (~2,68 milhões de registros)
 -- Adiciona cálculo da nota média geral e rótulos amigáveis para consumo por ferramentas de BI e Python
 
 CREATE OR REPLACE VIEW vw_enem_presentes AS

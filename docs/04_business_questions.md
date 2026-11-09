@@ -106,7 +106,7 @@ mindmap
 - **Contexto:** Mais de 31% dos inscritos não compareceram ao segundo dia do ENEM 2023. A abstenção representa desperdício de recursos públicos e frustração da trajetória educacional.
 - **Variáveis Envolvidas:** `tp_presenca_*`, `tp_faixa_etaria`, `q006`, `q025`, `sg_uf_prova`, `tp_escola`.
 - **Métricas:** Taxa de abstenção por dia (% de faltosos e eliminados) fatiada por UF, renda e tipo de escola.
-- **Artefatos Associados:** `notebooks/02_limpeza_tratamento.ipynb`, `app/streamlit_app.py`.
+- **Artefatos Associados:** `notebooks/02_limpeza_dados.ipynb`, `app/streamlit_app.py`.
 - **Tomada de Decisão / Insight:** Identificar os grupos demográficos em maior risco de evasão no exame.
 
 ---
