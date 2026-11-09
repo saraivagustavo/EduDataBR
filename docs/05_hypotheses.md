@@ -103,13 +103,17 @@ flowchart LR
 
 ---
 
-## 4. Matriz de Acompanhamento das Hipóteses
+## 4. Matriz de Acompanhamento das Hipóteses e Resultados Finais
 
-| ID | Hipótese | Variáveis Testadas | Etapa de Teste | Status Atual |
-|:---:|---|---|:---:|:---:|
-| **H1** | Gradiente de Renda Monotônico | `Q006`, notas | SQL / EDA | ⏳ A Testar |
-| **H2** | Efeito Isolado da Inclusão Digital | `Q025`, `Q006`, notas | EDA / SQL | ⏳ A Testar |
-| **H3** | Gap Pública vs. Privada | `TP_ESCOLA`, notas | SQL / EDA | ⏳ A Testar |
-| **H4** | Assimetria de Gênero por Disciplina | `TP_SEXO`, notas | EDA | ⏳ A Testar |
-| **H5** | Polarização Regional & Polos de Exatas | `SG_UF_PROVA`, notas | SQL / EDA | ⏳ A Testar |
-| **H6** | Determinantes da Evasão do 2º Dia | `TP_PRESENCA_*`, `Q006`, `Q025` | Limpeza / EDA | ⏳ A Testar |
+Auditoria executada na Sprint 4 sobre a base analítica ($N = 2.678.264$) e populacional ($N = 3.933.955$) no notebook [`notebooks/03_analise_exploratoria.ipynb`](../notebooks/03_analise_exploratoria.ipynb).
+
+| ID | Hipótese | Teste Estatístico | Métrica de Efeito (*Effect Size*) | Status Final | Conclusão |
+|:---:|---|---|---|:---:|---|
+| **H1** | Gradiente de Renda Monotônico | Correlação de Spearman | $\rho = 0,457$ ($p < 0,001$) \| Gap Extremos: **+231,2 pts** em MT | ✅ **Confirmada** | As notas crescem de forma estritamente monotônica com a renda; Matemática é a prova com maior abismo socioeconômico. |
+| **H2** | Efeito Isolado da Inclusão Digital | Teste t de Welch | $d = 0,23$ \| Ganho: **+23,6 pts** em MT na Faixa B | ✅ **Confirmada** | Ter internet no domicílio confere vantagem substantiva mesmo mantendo idêntica a faixa salarial familiar. |
+| **H3** | Gap Pública vs. Privada | Teste t de Welch | $d = 1,05$ (efeito grande) \| Gap MT: **+126,6 pts** | ✅ **Confirmada** | A rede privada supera a pública em todas as provas, com a maior distância observada em Redação e Matemática. |
+| **H4** | Assimetria de Gênero por Disciplina | Teste t de Welch duplo | Gap MT Masc: **+44,1 pts** \| Gap Red Fem: **+44,0 pts** | ✅ **Confirmada** | Homens apresentam médias expressivamente superiores em Matemática/Natureza; Mulheres em Redação/Linguagens. |
+| **H5** | Polarização Regional & Ceará em Exatas | Teste t para 1 amostra | Dif Ceará vs Média Nac MT: **-10,70 pts** ($p < 0,001$) | ❌ **Refutada** | Sudeste e Sul dominam as médias gerais, mas na média estadual agregada o Ceará ficou abaixo da média nacional em Matemática. |
+| **H6** | Determinantes da Evasão no 2º Domingo | Teste Qui-Quadrado ($\chi^2$) | *Odds Ratio* (Classe A vs Q): **1,28x** ($p < 0,001$) | ❌ **Refutada\*** | O efeito existe com significância estatística, mas o *Odds Ratio* ($1,28\times$) não atingiu o limiar prévio estipulado de $1,5\times$. |
+
+*\*Nota metodológica: A hipótese H6 foi considerada refutada pelo critério prévio de corte de efeito ($OR \ge 1,5\times$), mantendo a integridade científica do projeto e demonstrando a importância de estabelecer critérios a priori.*
