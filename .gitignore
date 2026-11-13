@@ -21,3 +21,7 @@ data/processed/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Modelos treinados
+models/*.joblib
+models/*.pkl
