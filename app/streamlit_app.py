@@ -25,31 +25,32 @@ st.set_page_config(
 )
 
 # ==============================================================================
-# 2. ESTILIZAÇÃO CSS CUSTOMIZADA (DESIGN SYSTEM MINIMALISTA)
+# 2. ESTILIZAÇÃO CSS CUSTOMIZADA (DESIGN SYSTEM DARK MINIMALISTA)
 # ==============================================================================
 CUSTOM_CSS = """
 <style>
-    /* Estilização Geral */
+    /* Estilização Geral em Tema Escuro */
     .stApp, .main, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
-        background-color: #f8fafc;
+        background-color: #0b0f19;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
     
     /* Header Principal */
     .app-header {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        color: #ffffff;
+        background: linear-gradient(135deg, #111827 0%, #1e293b 100%);
+        color: #f8fafc;
         padding: 1.8rem 2.2rem;
         border-radius: 12px;
         margin-bottom: 1.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+        border: 1px solid #1e293b;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
     }
     .app-header h1 {
         margin: 0;
         font-size: 2.1rem;
         font-weight: 700;
         letter-spacing: -0.025em;
-        color: #ffffff !important;
+        color: #f8fafc !important;
     }
     .app-header p {
         margin: 0.5rem 0 0 0;
@@ -67,75 +68,76 @@ CUSTOM_CSS = """
         margin-right: 0.5rem;
         margin-top: 0.6rem;
     }
-    .badge-primary { background-color: #1e3a8a; color: #bfdbfe; }
-    .badge-success { background-color: #064e3b; color: #a7f3d0; }
+    .badge-primary { background-color: #1e3a8a; color: #93c5fd; }
+    .badge-success { background-color: #064e3b; color: #6ee7b7; }
     .badge-secondary { background-color: #334155; color: #cbd5e1; }
     
     /* Cartões de KPI */
     .kpi-card {
-        background-color: #ffffff;
-        border: 1px solid #e2e8f0;
+        background-color: #111827;
+        border: 1px solid #1e293b;
         border-radius: 10px;
         padding: 1.25rem;
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
         transition: transform 0.15s ease, box-shadow 0.15s ease;
         margin-bottom: 1rem;
         min-height: 120px;
     }
     .kpi-card:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 6px 10px -1px rgba(0, 0, 0, 0.3);
+        border-color: #334155;
     }
     .kpi-title {
         font-size: 0.78rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: #64748b !important;
+        color: #94a3b8 !important;
         margin-bottom: 0.35rem;
     }
     .kpi-value {
         font-size: 1.85rem;
         font-weight: 700;
-        color: #0f172a !important;
+        color: #f8fafc !important;
         line-height: 1.15;
     }
     .kpi-subtitle {
         font-size: 0.82rem;
-        color: #64748b !important;
+        color: #cbd5e1 !important;
         margin-top: 0.35rem;
     }
     
     /* Painéis e Cards de Conteúdo */
     .content-card {
-        background-color: #ffffff;
-        border: 1px solid #e2e8f0;
+        background-color: #111827;
+        border: 1px solid #1e293b;
         border-radius: 12px;
         padding: 1.5rem;
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
         margin-bottom: 1.5rem;
     }
     
     /* Simulador */
     .sim-result-card {
-        background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-        border: 2px solid #3b82f6;
+        background: linear-gradient(135deg, #111827 0%, #0f172a 100%);
+        border: 2px solid #38bdf8;
         border-radius: 14px;
         padding: 1.6rem;
         text-align: center;
-        box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1);
+        box-shadow: 0 6px 12px -2px rgba(56, 189, 248, 0.15);
     }
     
     /* Rótulos e Labels dos Widgets - Alto Contraste */
     label, label p, [data-testid="stWidgetLabel"] p {
-        color: #0f172a !important;
+        color: #f1f5f9 !important;
         font-weight: 600 !important;
         font-size: 0.92rem !important;
     }
     
     /* Abas - Alto Contraste e Legibilidade Garantida */
     div[data-baseweb="tab-list"] {
-        border-bottom: 1px solid #e2e8f0 !important;
+        border-bottom: 1px solid #1e293b !important;
         gap: 0.5rem;
     }
     button[data-baseweb="tab"] {
@@ -148,23 +150,23 @@ CUSTOM_CSS = """
     button[data-baseweb="tab"] p, 
     button[data-baseweb="tab"] span, 
     button[data-baseweb="tab"] div {
-        color: #475569 !important;
+        color: #94a3b8 !important;
         font-size: 0.95rem !important;
         font-weight: 600 !important;
     }
     button[data-baseweb="tab"][aria-selected="true"] p, 
     button[data-baseweb="tab"][aria-selected="true"] span, 
     button[data-baseweb="tab"][aria-selected="true"] div {
-        color: #1e3a8a !important;
+        color: #38bdf8 !important;
         font-weight: 700 !important;
     }
     button[data-baseweb="tab"][aria-selected="true"] {
-        border-bottom: 3px solid #2563eb !important;
+        border-bottom: 3px solid #38bdf8 !important;
     }
     
     /* Títulos */
     h1, h2, h3, h4 {
-        color: #0f172a !important;
+        color: #f8fafc !important;
         font-weight: 700 !important;
     }
 </style>
@@ -434,13 +436,20 @@ with tab1:
             x=col_plot,
             nbins=60,
             marginal="box",
-            opacity=0.8,
-            color_discrete_sequence=['#2563eb'],
-            template="plotly_white",
+            opacity=0.85,
+            color_discrete_sequence=['#38bdf8'],
+            template="plotly_dark",
             labels={col_plot: f"Nota em {prova_selecionada}"}
         )
-        fig_hist.add_vline(x=df_filtered[col_plot].mean(), line_dash="dash", line_color="#ef4444", annotation_text=f"Média: {df_filtered[col_plot].mean():.1f}")
-        fig_hist.update_layout(height=420, margin=dict(l=20, r=20, t=30, b=20), xaxis_title="Pontuação", yaxis_title="Frequência")
+        fig_hist.add_vline(x=df_filtered[col_plot].mean(), line_dash="dash", line_color="#f87171", annotation_text=f"Média: {df_filtered[col_plot].mean():.1f}")
+        fig_hist.update_layout(
+            height=420, 
+            margin=dict(l=20, r=20, t=30, b=20), 
+            xaxis_title="Pontuação", 
+            yaxis_title="Frequência",
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)'
+        )
         st.plotly_chart(fig_hist, use_container_width=True)
         
     with gcol2:
@@ -453,10 +462,16 @@ with tab1:
             names='Cor / Raça',
             values='Total',
             hole=0.45,
-            color_discrete_sequence=px.colors.qualitative.Safe,
-            template="plotly_white"
+            color_discrete_sequence=px.colors.qualitative.Pastel,
+            template="plotly_dark"
         )
-        fig_raca.update_layout(height=420, margin=dict(l=20, r=20, t=30, b=20), legend=dict(orientation="h", yanchor="bottom", y=-0.25))
+        fig_raca.update_layout(
+            height=420, 
+            margin=dict(l=20, r=20, t=30, b=20), 
+            legend=dict(orientation="h", yanchor="bottom", y=-0.25),
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)'
+        )
         st.plotly_chart(fig_raca, use_container_width=True)
 
 # ------------------------------------------------------------------------------
@@ -486,11 +501,17 @@ with tab2:
             text=df_renda_agg['media_geral'].apply(lambda x: f"{x:.1f}"),
             color='media_geral',
             color_continuous_scale='Blues',
-            template="plotly_white",
+            template="plotly_dark",
             labels={'media_geral': 'Nota Média Geral', 'renda_desc': 'Faixa de Renda Familiar'}
         )
-        fig_renda.add_vline(x=MEDIA_NACIONAL, line_dash="dash", line_color="red", annotation_text="Média Brasil")
-        fig_renda.update_layout(height=480, margin=dict(l=20, r=20, t=30, b=20), coloraxis_showscale=False)
+        fig_renda.add_vline(x=MEDIA_NACIONAL, line_dash="dash", line_color="#f87171", annotation_text="Média Brasil")
+        fig_renda.update_layout(
+            height=480, 
+            margin=dict(l=20, r=20, t=30, b=20), 
+            coloraxis_showscale=False,
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)'
+        )
         st.plotly_chart(fig_renda, use_container_width=True)
         
     with dcol2:
@@ -504,11 +525,17 @@ with tab2:
             color='internet_desc',
             barmode='group',
             text=df_inter_agg['nu_nota_media_geral'].apply(lambda x: f"{x:.1f}"),
-            color_discrete_map={'Com internet': '#2563eb', 'Sem internet': '#f59e0b'},
-            template="plotly_white",
+            color_discrete_map={'Com internet': '#38bdf8', 'Sem internet': '#f59e0b'},
+            template="plotly_dark",
             labels={'nu_nota_media_geral': 'Nota Média Geral', 'classe_renda': 'Classe de Renda', 'internet_desc': 'Conectividade'}
         )
-        fig_inter.update_layout(height=480, margin=dict(l=20, r=20, t=30, b=20), legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
+        fig_inter.update_layout(
+            height=480, 
+            margin=dict(l=20, r=20, t=30, b=20), 
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)'
+        )
         st.plotly_chart(fig_inter, use_container_width=True)
         
     st.markdown("---")
@@ -529,14 +556,16 @@ with tab2:
             
             fig_gap = go.Figure()
             fig_gap.add_trace(go.Bar(x=df_escola_agg['Área'], y=df_escola_agg['Pública'], name='Escola Pública', marker_color='#64748b'))
-            fig_gap.add_trace(go.Bar(x=df_escola_agg['Área'], y=df_escola_agg['Privada'], name='Escola Privada', marker_color='#2563eb'))
+            fig_gap.add_trace(go.Bar(x=df_escola_agg['Área'], y=df_escola_agg['Privada'], name='Escola Privada', marker_color='#38bdf8'))
             fig_gap.update_layout(
                 barmode='group',
-                template="plotly_white",
+                template="plotly_dark",
                 height=420,
                 margin=dict(l=20, r=20, t=30, b=20),
                 yaxis_title="Nota Média",
-                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)'
             )
             st.plotly_chart(fig_gap, use_container_width=True)
         else:
@@ -554,11 +583,17 @@ with tab2:
                 y='Taxa Zero (%)',
                 text=df_zero_agg['Taxa Zero (%)'].apply(lambda x: f"{x:.2f}%"),
                 color='escola_desc',
-                color_discrete_map={'Pública': '#ef4444', 'Privada': '#3b82f6'},
-                template="plotly_white",
+                color_discrete_map={'Pública': '#f87171', 'Privada': '#38bdf8'},
+                template="plotly_dark",
                 labels={'escola_desc': 'Rede Escolar'}
             )
-            fig_zero.update_layout(height=420, margin=dict(l=20, r=20, t=30, b=20), showlegend=False)
+            fig_zero.update_layout(
+                height=420, 
+                margin=dict(l=20, r=20, t=30, b=20), 
+                showlegend=False,
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)'
+            )
             st.plotly_chart(fig_zero, use_container_width=True)
 
 # ------------------------------------------------------------------------------
@@ -591,17 +626,23 @@ with tab3:
         color='Região',
         text=df_uf_agg['media_geral'].apply(lambda x: f"{x:.1f}"),
         color_discrete_map={
-            'Sudeste': '#1e3a8a',
-            'Sul': '#2563eb',
-            'Centro-Oeste': '#0d9488',
-            'Nordeste': '#f59e0b',
-            'Norte': '#ef4444'
+            'Sudeste': '#60a5fa',
+            'Sul': '#38bdf8',
+            'Centro-Oeste': '#2dd4bf',
+            'Nordeste': '#fbbf24',
+            'Norte': '#f87171'
         },
-        template="plotly_white",
+        template="plotly_dark",
         labels={'media_geral': 'Nota Média Geral', 'SG_UF_PROVA': 'Unidade Federativa'}
     )
-    fig_uf.add_vline(x=MEDIA_NACIONAL, line_dash="dash", line_color="black", annotation_text=f"Média Nacional ({MEDIA_NACIONAL:.1f})")
-    fig_uf.update_layout(height=650, margin=dict(l=20, r=20, t=30, b=20), legend=dict(orientation="h", yanchor="bottom", y=1.02))
+    fig_uf.add_vline(x=MEDIA_NACIONAL, line_dash="dash", line_color="#cbd5e1", annotation_text=f"Média Nacional ({MEDIA_NACIONAL:.1f})")
+    fig_uf.update_layout(
+        height=650, 
+        margin=dict(l=20, r=20, t=30, b=20), 
+        legend=dict(orientation="h", yanchor="bottom", y=1.02),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
     st.plotly_chart(fig_uf, use_container_width=True)
     
     st.markdown("#### Tabela Analítica Completa por Estado")
@@ -731,7 +772,7 @@ with tab4:
         pred_prob_top20 = float(clf_pipeline.predict_proba(sim_input_df)[0, 1]) * 100
         
         st.markdown("<div class='sim-result-card'>", unsafe_allow_html=True)
-        st.markdown("<h3 style='color: #1e3a8a; margin-top: 0;'>Resultado da Inferência Preditiva</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='color: #38bdf8; margin-top: 0;'>Resultado da Inferência Preditiva</h3>", unsafe_allow_html=True)
         
         scard_1, scard_2 = st.columns(2)
         with scard_1:
@@ -748,32 +789,37 @@ with tab4:
         fig_gauge = go.Figure(go.Indicator(
             mode="gauge+number",
             value=pred_prob_top20,
-            title={'text': "Chance de Alto Desempenho (Top 20% Nacional)", 'font': {'size': 14, 'color': '#1e293b'}},
-            number={'suffix': "%", 'font': {'size': 26, 'color': '#0f172a'}},
+            title={'text': "Chance de Alto Desempenho (Top 20% Nacional)", 'font': {'size': 14, 'color': '#f1f5f9'}},
+            number={'suffix': "%", 'font': {'size': 26, 'color': '#f8fafc'}},
             gauge={
                 'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "#94a3b8"},
-                'bar': {'color': "#2563eb"},
-                'bgcolor': "white",
+                'bar': {'color': "#38bdf8"},
+                'bgcolor': "#111827",
                 'borderwidth': 1,
-                'bordercolor': "#cbd5e1",
+                'bordercolor': "#1e293b",
                 'steps': [
-                    {'range': [0, 10], 'color': '#fee2e2'},
-                    {'range': [10, 30], 'color': '#fef3c7'},
-                    {'range': [30, 60], 'color': '#e0f2fe'},
-                    {'range': [60, 100], 'color': '#dcfce7'}
+                    {'range': [0, 10], 'color': '#450a0a'},
+                    {'range': [10, 30], 'color': '#78350f'},
+                    {'range': [30, 60], 'color': '#0c4a6e'},
+                    {'range': [60, 100], 'color': '#064e3b'}
                 ],
                 'threshold': {
-                    'line': {'color': "red", 'width': 3},
+                    'line': {'color': "#ef4444", 'width': 3},
                     'thickness': 0.75,
                     'value': 20.0  # Média nacional
                 }
             }
         ))
-        fig_gauge.update_layout(height=260, margin=dict(l=20, r=20, t=30, b=20))
+        fig_gauge.update_layout(
+            height=260, 
+            margin=dict(l=20, r=20, t=30, b=20),
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)'
+        )
         st.plotly_chart(fig_gauge, use_container_width=True)
         
         # Leitura analítica do perfil
-        st.markdown("<div style='text-align: left; font-size: 0.9rem; color: #475569;'>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: left; font-size: 0.9rem; color: #cbd5e1;'>", unsafe_allow_html=True)
         st.markdown(f"**Interpretação do Perfil Simulado:**")
         if pred_nota >= 600:
             st.success(f"O perfil apresenta forte impulso contextual. Estima-se pontuação entre **{pred_nota-80:.0f} e {pred_nota+80:.0f} pontos**, com alta probabilidade de disputar vagas em cursos de alta concorrência.")
@@ -820,8 +866,8 @@ with tab5:
         
     st.markdown("---")
     st.markdown("""
-    <div style="background-color: #ffffff; padding: 1.2rem; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
+    <div style="background-color: #111827; padding: 1.2rem; border-radius: 8px; border: 1px solid #1e293b; text-align: center; color: #f8fafc;">
         <b>EduDataBR — Projeto de Engenharia, Ciência e Análise de Dados Educacionais</b><br/>
-        <span style="color: #64748b; font-size: 0.85rem;">Desenvolvido por Gustavo Saraiva • Microdados Oficiais do ENEM 2023 (INEP/MEC) • Código Aberto no GitHub</span>
+        <span style="color: #94a3b8; font-size: 0.85rem;">Desenvolvido por Gustavo Saraiva • Microdados Oficiais do ENEM 2023 (INEP/MEC) • Código Aberto no GitHub</span>
     </div>
     """, unsafe_allow_html=True)
