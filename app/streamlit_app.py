@@ -1,6 +1,7 @@
 """
 EduDataBR — Painel Analítico & Preditivo ENEM 2023
 Aplicação Web Interativa desenvolvida com Streamlit e Plotly.
+Estética minimalista, foco em legibilidade e redução de elementos visuais dispersivos.
 
 Autor: Gustavo Saraiva
 Repositório: https://github.com/saraivagustavo/EduDataBR
@@ -19,18 +20,17 @@ import streamlit as st
 # ==============================================================================
 st.set_page_config(
     page_title="EduDataBR — Painel ENEM 2023",
-    page_icon="🎓",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 # ==============================================================================
-# 2. ESTILIZAÇÃO CSS CUSTOMIZADA (DESIGN SYSTEM ZINC & NAVY)
+# 2. ESTILIZAÇÃO CSS CUSTOMIZADA (DESIGN SYSTEM MINIMALISTA)
 # ==============================================================================
 CUSTOM_CSS = """
 <style>
     /* Estilização Geral */
-    .main {
+    .stApp, .main, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         background-color: #f8fafc;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
@@ -42,19 +42,19 @@ CUSTOM_CSS = """
         padding: 1.8rem 2.2rem;
         border-radius: 12px;
         margin-bottom: 1.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
     }
     .app-header h1 {
         margin: 0;
-        font-size: 2.2rem;
-        font-weight: 800;
+        font-size: 2.1rem;
+        font-weight: 700;
         letter-spacing: -0.025em;
         color: #ffffff !important;
     }
     .app-header p {
         margin: 0.5rem 0 0 0;
         font-size: 1.05rem;
-        color: #94a3b8;
+        color: #94a3b8 !important;
     }
     
     /* Badges */
@@ -63,7 +63,7 @@ CUSTOM_CSS = """
         padding: 0.25rem 0.65rem;
         font-size: 0.78rem;
         font-weight: 600;
-        border-radius: 9999px;
+        border-radius: 6px;
         margin-right: 0.5rem;
         margin-top: 0.6rem;
     }
@@ -75,33 +75,34 @@ CUSTOM_CSS = """
     .kpi-card {
         background-color: #ffffff;
         border: 1px solid #e2e8f0;
-        border-radius: 12px;
+        border-radius: 10px;
         padding: 1.25rem;
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
         transition: transform 0.15s ease, box-shadow 0.15s ease;
         margin-bottom: 1rem;
+        min-height: 120px;
     }
     .kpi-card:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
     }
     .kpi-title {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: #64748b;
+        color: #64748b !important;
         margin-bottom: 0.35rem;
     }
     .kpi-value {
         font-size: 1.85rem;
         font-weight: 700;
-        color: #0f172a;
+        color: #0f172a !important;
         line-height: 1.15;
     }
     .kpi-subtitle {
         font-size: 0.82rem;
-        color: #94a3b8;
+        color: #64748b !important;
         margin-top: 0.35rem;
     }
     
@@ -125,11 +126,46 @@ CUSTOM_CSS = """
         box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1);
     }
     
-    /* Abas */
+    /* Rótulos e Labels dos Widgets - Alto Contraste */
+    label, label p, [data-testid="stWidgetLabel"] p {
+        color: #0f172a !important;
+        font-weight: 600 !important;
+        font-size: 0.92rem !important;
+    }
+    
+    /* Abas - Alto Contraste e Legibilidade Garantida */
+    div[data-baseweb="tab-list"] {
+        border-bottom: 1px solid #e2e8f0 !important;
+        gap: 0.5rem;
+    }
     button[data-baseweb="tab"] {
         font-size: 0.95rem !important;
         font-weight: 600 !important;
         padding: 0.75rem 1.2rem !important;
+        background-color: transparent !important;
+        border: none !important;
+    }
+    button[data-baseweb="tab"] p, 
+    button[data-baseweb="tab"] span, 
+    button[data-baseweb="tab"] div {
+        color: #475569 !important;
+        font-size: 0.95rem !important;
+        font-weight: 600 !important;
+    }
+    button[data-baseweb="tab"][aria-selected="true"] p, 
+    button[data-baseweb="tab"][aria-selected="true"] span, 
+    button[data-baseweb="tab"][aria-selected="true"] div {
+        color: #1e3a8a !important;
+        font-weight: 700 !important;
+    }
+    button[data-baseweb="tab"][aria-selected="true"] {
+        border-bottom: 3px solid #2563eb !important;
+    }
+    
+    /* Títulos */
+    h1, h2, h3, h4 {
+        color: #0f172a !important;
+        font-weight: 700 !important;
     }
 </style>
 """
@@ -200,7 +236,7 @@ P80_NACIONAL = 623.04
 # ==============================================================================
 # 5. BARRA LATERAL (SIDEBAR) — FILTROS DINÂMICOS
 # ==============================================================================
-st.sidebar.markdown("## 🎓 **EduDataBR**")
+st.sidebar.markdown("## **EduDataBR**")
 st.sidebar.markdown("*Filtros Globais de Análise*")
 st.sidebar.markdown("---")
 
@@ -281,7 +317,7 @@ st.sidebar.caption("EduDataBR • Desenvolvido com Streamlit, Plotly & Scikit-Le
 # ==============================================================================
 st.markdown("""
 <div class="app-header">
-    <h1>🎓 EduDataBR — Panorama & Inteligência Preditiva ENEM 2023</h1>
+    <h1>EduDataBR — Panorama & Inteligência Preditiva ENEM 2023</h1>
     <p>Plataforma analítica e preditiva sobre os determinantes socioeconômicos e educacionais do desempenho no exame nacional.</p>
     <div>
         <span class="badge badge-primary">INEP Microdados 2023</span>
@@ -292,25 +328,25 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 if n_filtrado == 0:
-    st.error("⚠️ Nenhum participante encontrado para a combinação de filtros selecionada. Por favor, ajuste os parâmetros na barra lateral.")
+    st.warning("Nenhum participante encontrado para a combinação de filtros selecionada. Por favor, ajuste os parâmetros na barra lateral.")
     st.stop()
 
 # ==============================================================================
-# 7. NAVEGAÇÃO PRINCIPAL POR ABAS
+# 7. NAVEGAÇÃO PRINCIPAL POR ABAS (MINIMALISTA)
 # ==============================================================================
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "📊 Visão Geral & Demografia",
-    "⚖️ Desigualdades Socioeducacionais",
-    "🗺️ Geografia da Educação",
-    "🤖 Simulador Preditivo (What-If)",
-    "📚 Metodologia & Governança"
+    "Visão Geral & Demografia",
+    "Desigualdades Socioeducacionais",
+    "Geografia da Educação",
+    "Simulador Preditivo (What-If)",
+    "Metodologia & Governança"
 ])
 
 # ------------------------------------------------------------------------------
 # ABA 1: VISÃO GERAL & DEMOGRAFIA
 # ------------------------------------------------------------------------------
 with tab1:
-    st.markdown("### 📈 Indicadores Chave de Desempenho (KPIs)")
+    st.markdown("### Indicadores Principais de Desempenho")
     
     col1, col2, col3, col4, col5 = st.columns(5)
     
@@ -368,11 +404,11 @@ with tab1:
         
     st.markdown("---")
     
-    # Linha de Gráficos 1: Distribuição das Provas e Perfil Demográfico
+    # Linha de Gráficos: Distribuição das Provas e Perfil Demográfico
     gcol1, gcol2 = st.columns([3, 2])
     
     with gcol1:
-        st.markdown("#### 🎯 Distribuição das Notas no Grupo Selecionado")
+        st.markdown("#### Distribuição das Notas no Grupo Selecionado")
         prova_selecionada = st.selectbox(
             "Selecione a Prova para Visualizar a Distribuição:",
             ["Média Geral", "Matemática (MT)", "Redação", "Linguagens e Códigos (LC)", "Ciências Humanas (CH)", "Ciências da Natureza (CN)"],
@@ -408,7 +444,7 @@ with tab1:
         st.plotly_chart(fig_hist, use_container_width=True)
         
     with gcol2:
-        st.markdown("#### 👥 Composição Étnico-Racial")
+        st.markdown("#### Composição Étnico-Racial")
         df_raca = df_filtered['cor_raca_desc'].value_counts().reset_index()
         df_raca.columns = ['Cor / Raça', 'Total']
         
@@ -427,13 +463,13 @@ with tab1:
 # ABA 2: DESIGUALDADES SOCIOEDUCACIONAIS
 # ------------------------------------------------------------------------------
 with tab2:
-    st.markdown("### ⚖️ O Impacto Estrutural da Renda, Conectividade e Tipo de Escola")
+    st.markdown("### O Impacto Estrutural da Renda, Conectividade e Tipo de Escola")
     st.markdown("Análise quantitativa das disparidades de desempenho no ENEM 2023 à luz dos dados socioeconômicos do questionário do estudante.")
     
     dcol1, dcol2 = st.columns(2)
     
     with dcol1:
-        st.markdown("#### 💰 Desempenho Médio por Faixa de Renda Familiar")
+        st.markdown("#### Desempenho Médio por Faixa de Renda Familiar")
         
         df_renda_agg = df_filtered.groupby('renda_desc', observed=True).agg(
             media_geral=('nu_nota_media_geral', 'mean'),
@@ -458,7 +494,7 @@ with tab2:
         st.plotly_chart(fig_renda, use_container_width=True)
         
     with dcol2:
-        st.markdown("#### 🌐 O Efeito Marginal da Internet dentro de Cada Classe")
+        st.markdown("#### O Efeito Marginal da Internet dentro de Cada Classe")
         df_inter_agg = df_filtered.groupby(['classe_renda', 'internet_desc'], observed=True)['nu_nota_media_geral'].mean().reset_index()
         
         fig_inter = px.bar(
@@ -480,7 +516,7 @@ with tab2:
     dcol3, dcol4 = st.columns(2)
     
     with dcol3:
-        st.markdown("#### 🏫 O Abismo entre Escola Pública e Privada por Área")
+        st.markdown("#### Diferencial entre Escola Pública e Privada por Área")
         areas = ['NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT', 'NU_NOTA_REDACAO']
         nomes_areas = ['Ciências Natureza', 'Ciências Humanas', 'Linguagens', 'Matemática', 'Redação']
         
@@ -507,7 +543,7 @@ with tab2:
             st.info("Filtro atual não contém estudantes de escolas públicas e privadas para comparação.")
             
     with dcol4:
-        st.markdown("#### ✍️ Taxa de Notas Zero na Redação por Rede")
+        st.markdown("#### Taxa de Notas Zero na Redação por Rede")
         if len(df_escola_pub_priv) > 0:
             df_zero_agg = df_escola_pub_priv.groupby('escola_desc', observed=True)['fl_redacao_zero'].mean().reset_index()
             df_zero_agg['Taxa Zero (%)'] = df_zero_agg['fl_redacao_zero'] * 100
@@ -529,7 +565,7 @@ with tab2:
 # ABA 3: GEOGRAFIA DA EDUCAÇÃO
 # ------------------------------------------------------------------------------
 with tab3:
-    st.markdown("### 🗺️ Análise Espacial & Ranking Federativo do ENEM 2023")
+    st.markdown("### Análise Espacial e Ranking Federativo do ENEM 2023")
     st.markdown("Comparativo do desempenho educacional entre as 27 Unidades Federativas e as 5 Macrorregiões brasileiras.")
     
     # Agregação por UF
@@ -568,7 +604,7 @@ with tab3:
     fig_uf.update_layout(height=650, margin=dict(l=20, r=20, t=30, b=20), legend=dict(orientation="h", yanchor="bottom", y=1.02))
     st.plotly_chart(fig_uf, use_container_width=True)
     
-    st.markdown("#### 📋 Tabela Analítica Completa por Estado")
+    st.markdown("#### Tabela Analítica Completa por Estado")
     df_uf_table = df_uf_agg.sort_values('media_geral', ascending=False).reset_index(drop=True)
     df_uf_table.columns = ['UF', 'Média Geral (pts)', 'Média Matemática', 'Média Redação', 'Taxa Top 20% (%)', 'Participantes', 'Região']
     
@@ -588,20 +624,20 @@ with tab3:
 # ABA 4: SIMULADOR PREDITIVO (WHAT-IF ANALYSIS)
 # ------------------------------------------------------------------------------
 with tab4:
-    st.markdown("### 🤖 Simulador Preditivo de Desempenho (*What-If Analysis*)")
-    st.markdown("""
+    st.markdown("### Simulador Preditivo de Desempenho (What-If Analysis)")
+    st.markdown(r"""
     Este simulador utiliza os modelos de Machine Learning treinados e validados na **Sprint 5** (`HistGradientBoostingRegressor` e `HistGradientBoostingClassifier`).
     
     Configure abaixo o perfil socioeducacional de um candidato hipotético para prever em tempo real:
     1. **Nota Média Geral Esperada** (Regressão não-linear).
-    2. **Probabilidade de Atingir o Top 20% Nacional** (Classificação binária com $P_{80} \\ge 623$ pts).
+    2. **Probabilidade de Atingir o Top 20% Nacional** (Classificação binária com $P_{80} \ge 623$ pts).
     """)
     
     sim_col1, sim_col2 = st.columns([1, 1], gap="large")
     
     with sim_col1:
         st.markdown("<div class='content-card'>", unsafe_allow_html=True)
-        st.markdown("#### ⚙️ Configuração do Perfil do Estudante")
+        st.markdown("#### Configuração do Perfil do Estudante")
         
         sim_escola = st.selectbox("1. Rede de Ensino:", ["Pública", "Privada", "Não respondeu"], index=0)
         
@@ -695,7 +731,7 @@ with tab4:
         pred_prob_top20 = float(clf_pipeline.predict_proba(sim_input_df)[0, 1]) * 100
         
         st.markdown("<div class='sim-result-card'>", unsafe_allow_html=True)
-        st.markdown("<h3 style='color: #1e3a8a; margin-top: 0;'>🎯 Resultado da Inferência Preditiva</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='color: #1e3a8a; margin-top: 0;'>Resultado da Inferência Preditiva</h3>", unsafe_allow_html=True)
         
         scard_1, scard_2 = st.columns(2)
         with scard_1:
@@ -752,25 +788,25 @@ with tab4:
 # ABA 5: METODOLOGIA, HIPÓTESES & GOVERNANÇA
 # ------------------------------------------------------------------------------
 with tab5:
-    st.markdown("### 📚 Metodologia, Testes de Hipóteses & Decisões Técnicas")
+    st.markdown("### Metodologia, Testes de Hipóteses e Decisões Técnicas")
     
     mcol1, mcol2 = st.columns(2)
     
     with mcol1:
-        st.markdown("#### 🔬 Resultados dos Testes de Hipóteses Estatísticas")
+        st.markdown("#### Resultados dos Testes de Hipóteses Estatísticas")
         st.markdown(r"""
-        Todas as hipóteses foram avaliadas pelo **Tamanho do Efeito (*Effect Size*)** para evitar falsos positivos decorrentes do tamanho amostral massivo ($N > 2{,}6\text{M}$):
+        Todas as hipóteses foram avaliadas pelo **Tamanho do Efeito (*Effect Size*)** para evitar conclusões espúrias decorrentes do tamanho amostral massivo ($N > 2{,}6\text{M}$):
         
-        - **H1 (Renda e Matemática):** ✅ **Confirmada substantivamente**. Forte correlação monotônica ($\rho = 0{,}457, p < 0{,}001$), com gap de $+231{,}2$ pontos entre extremos.
-        - **H2 (Internet e Desempenho):** ✅ **Confirmada substantivamente**. Mesmo dentro do estrato de baixa renda ($\le 1$ SM), ter internet domiciliar adiciona $+23{,}6$ pontos em Matemática ($d = 0{,}23$).
-        - **H3 (Escola Pública vs. Privada):** ✅ **Confirmada com Efeito Muito Grande**. Alunos de rede privada superam os de pública em $+126{,}6$ pts em Matemática ($d = 1{,}05$) e $+150{,}5$ pts em Redação ($d = 0{,}84$).
-        - **H4 (Disparidade de Gênero):** ✅ **Confirmada**. Homens superam mulheres em Matemática ($+44{,}1$ pts, $d = 0{,}42$); mulheres superam homens em Redação ($+44{,}0$ pts, $d = 0{,}25$).
-        - **H5 (Ceará em Matemática):** ❌ **Refutada**. Média de Matemática no CE ($523{,}3$ pts) ficou abaixo da média nacional ($534{,}0$ pts, gap $-10{,}7$ pts).
-        - **H6 (Evasão por Vulnerabilidade):** ❌ **Refutada no Limiar Prático**. Embora a evasão no Dia 2 seja maior em vulneráveis ($5{,}94\%$ vs $4{,}73\%$), o *Odds Ratio* ($1{,}28\times$) não atingiu o limiar pragmático estabelecido ($1{,}5\times$).
+        - **H1 (Renda e Matemática):** **[Confirmada]** Forte correlação monotônica ($\rho = 0{,}457, p < 0{,}001$), com gap de $+231{,}2$ pontos entre extremos.
+        - **H2 (Internet e Desempenho):** **[Confirmada]** Mesmo dentro do estrato de baixa renda ($\le 1$ SM), ter internet domiciliar adiciona $+23{,}6$ pontos em Matemática ($d = 0{,}23$).
+        - **H3 (Escola Pública vs. Privada):** **[Confirmada]** Efeito muito grande. Alunos de rede privada superam os de pública em $+126{,}6$ pts em Matemática ($d = 1{,}05$) e $+150{,}5$ pts em Redação ($d = 0{,}84$).
+        - **H4 (Disparidade de Gênero):** **[Confirmada]** Homens superam mulheres em Matemática ($+44{,}1$ pts, $d = 0{,}42$); mulheres superam homens em Redação ($+44{,}0$ pts, $d = 0{,}25$).
+        - **H5 (Ceará em Matemática):** **[Refutada]** Média de Matemática no CE ($523{,}3$ pts) ficou abaixo da média nacional ($534{,}0$ pts, gap $-10{,}7$ pts).
+        - **H6 (Evasão por Vulnerabilidade):** **[Refutada no Limiar Prático]** Embora a evasão no Dia 2 seja maior em vulneráveis ($5{,}94\%$ vs $4{,}73\%$), o *Odds Ratio* ($1{,}28\times$) não atingiu o limiar pragmático estabelecido ($1{,}5\times$).
         """)
         
     with mcol2:
-        st.markdown("#### 🏛️ Registro de Decisões Técnicas de Engenharia (ADRs)")
+        st.markdown("#### Registro de Decisões Técnicas de Engenharia (ADRs)")
         st.markdown(r"""
         - **ADR-01/02:** Manutenção de notas zero (Redação: 93,1k; Objetivas: 19,5k) com flags indicadoras, preservando o fenômeno da evasão de conteúdo.
         - **ADR-04:** Armazenamento em **Apache Parquet** colunar (`enem_2023_analitico.parquet`), reduzindo tempo de leitura de $5{,}7\text{s}$ para $0{,}2\text{s}$ e uso de memória em $67\%$.
@@ -779,6 +815,7 @@ with tab5:
         - **ADR-08:** Blindagem absoluta contra *Data Leakage* (zero notas parciais na matriz $X$, encoders ajustados estritamente no treino).
         - **ADR-09:** Uso do `HistGradientBoosting` com binning em histogramas, permitindo treinar sobre 2,14 milhões de amostras em menos de 35 segundos.
         - **ADR-10:** Explicabilidade com **SHAP Values** (`TreeExplainer`) calculado sobre amostra estatística representativa ($N = 5.000$) do conjunto de teste.
+        - **ADR-11/12/13:** Arquitetura Streamlit em página única com navegação em abas, cache duplo (`@st.cache_data` e `@st.cache_resource`) e visual analítico integrado.
         """)
         
     st.markdown("---")
