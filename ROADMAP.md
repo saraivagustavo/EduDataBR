@@ -28,8 +28,8 @@ flowchart LR
 | **Sprint 3** | Engenharia & SQL Analytics | Carga no PostgreSQL, índices, views analíticas e queries avançadas | ✅ Concluída |
 | **Sprint 4** | Limpeza & Análise Exploratória (EDA) | Tratamento fino, formato parquet, estatística descritiva e gráficos | ✅ Concluída |
 | **Sprint 5** | Engenharia de Features & Machine Learning | Novas variáveis, modelos de regressão/classificação e explicabilidade | ✅ Concluída |
-| **Sprint 6** | Dashboard Interativo (Data App) | Interface em Streamlit com filtros dinâmicos e gráficos interativos | 🟡 **Em Andamento** *(Ponto Atual)* |
-| **Sprint 7** | Engenharia de Software & Modularização | Migração de notebooks para `src/`, pipeline reproduzível e testes | ⚪ A Iniciar |
+| **Sprint 6** | Dashboard Interativo (Data App) | Interface em Streamlit com filtros dinâmicos e gráficos interativos | ✅ Concluída |
+| **Sprint 7** | Engenharia de Software & Modularização | Migração de notebooks para `src/`, pipeline reproduzível e testes | 🟡 **Em Andamento** *(Ponto Atual)* |
 | **Sprint 8** | Storytelling, Relatório Final & Portfólio | Relatório executivo de insights, deploy na nuvem e polimento do README | ⚪ A Iniciar |
 
 ---
@@ -172,17 +172,24 @@ flowchart LR
 ### Sprint 6 — Dashboard Interativo com Streamlit
 > **Objetivo:** Construir um produto de dados interativo e visual que permita ao usuário final e avaliadores explorarem os insights de forma intuitiva.
 
-- [ ] Estruturação do `app/streamlit_app.py`:
-  - Sidebar com filtros dinâmicos: UF, Sexo, Cor/Raça, Tipo de Escola, Faixa de Renda.
-  - Aba 1 — **Visão Geral & KPIs**: Total de inscritos, taxa de presença, nota média nacional e distribuições.
-  - Aba 2 — **Desigualdades Socioeconômicas**: Gráficos comparando renda, internet e rede de ensino.
-  - Aba 3 — **Desempenho Geográfico**: Mapa ou ranking comparativo entre Estados.
-  - Aba 4 — **Simulador / Insights Preditivos**: Visualização interativa dos pesos e impactos previstos pelo modelo.
-- [ ] Otimização de performance do app com `@st.cache_data` lendo direto de `.parquet`.
+- [x] Estruturação da interface web em `app/streamlit_app.py`:
+  - Design system customizado em CSS (*Zinc & Navy*), tipografia limpa e cartões de KPI corporativos.
+  - Sidebar reativa com filtros de Região, UF, Rede de Ensino, Faixa de Renda, Internet, Sexo e Raça/Cor.
+  - Aba 1 — **Visão Geral & Demografia**: 5 KPIs centrais, histograma interativo das 5 provas e composição étnico-racial.
+  - Aba 2 — **Desigualdades Socioeducacionais**: Desempenho por renda (Q006), efeito da conectividade, gap pública vs. privada e taxa de redação zero.
+  - Aba 3 — **Geografia da Educação**: Ranking horizontal das 27 UFs com desvio da média nacional e tabela analítica completa por Estado.
+  - Aba 4 — **Simulador Preditivo (What-If)**: Formulário interativo para entrada de perfil e inferência em tempo real com `regressor_enem2023.joblib` e `classificador_enem2023.joblib` (Gauge chart de probabilidade e estimativa de nota).
+  - Aba 5 — **Metodologia & Governança**: Painel consolidado das hipóteses estatísticas H1 a H6 e decisões arquiteturais ADR-01 a ADR-13.
+- [x] Otimização de performance:
+  - Cache de dados com `@st.cache_data` para leitura e processamento instantâneo de 2,68M de linhas em formato Parquet.
+  - Cache de modelos com `@st.cache_resource` para persistência dos pipelines scikit-learn.
+  - Amostragem inteligente ($N = 40.000$) para fluidez na renderização gráfica com Plotly.
+- [x] Registro das decisões técnicas ADR-11 a ADR-13 em `docs/06_decisions.md`.
 
 **Entregáveis:**
 - `app/streamlit_app.py`
-- Arquivos de configuração do Streamlit
+- Decisões ADR-11 a ADR-13 em `docs/06_decisions.md`
+- Dependências `streamlit` e `plotly` adicionadas em `requirements.txt`
 
 ---
 

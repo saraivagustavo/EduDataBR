@@ -93,3 +93,31 @@ O objetivo é manter a rastreabilidade das escolhas de engenharia, governança e
 - **Decisão:** Calcular os valores SHAP sobre uma **amostra estatisticamente representativa de $N = 5.000$ participantes** do conjunto de teste (com semente fixa `random_state=42`).
 - **Justificativa:** Para um universo de 535 mil candidatos, uma amostra aleatória de 5.000 instâncias atinge margem de erro inferior a $1{,}4\%$ com $95\%$ de nível de confiança, reduzindo o tempo de cálculo de mais de 30 minutos para apenas **3,6 segundos**, viabilizando os gráficos Beeswarm e Bar Plot de impacto médio com total confiabilidade estatística.
 
+---
+
+## 4. Decisões da Sprint 6 (Dashboard Interativo com Streamlit)
+
+---
+
+### ADR-11: Arquitetura de Interface em Página Única com Abas Horizontais (`st.tabs`)
+- **Contexto:** Havia necessidade de definir entre uma aplicação multipáginas tradicional (`app/pages/`) ou uma aplicação integrada em página única com navegação superior.
+- **Decisão:** Adotar página única estruturada em **5 abas conceituais** (`st.tabs`) com barra lateral unificada de filtros reativos.
+- **Justificativa:** A navegação por abas horizontais preserva o estado dos filtros da sidebar entre todas as seções analíticas sem recargas pesadas de rota, unifica a experiência do usuário e simplifica a implantação na nuvem (*Streamlit Community Cloud* ou container Docker).
+
+---
+
+### ADR-12: Caching de Dados Massivos (`@st.cache_data`) e Modelos Preditivos (`@st.cache_resource`)
+- **Contexto:** A base analítica contém 2,68 milhões de linhas e os pipelines serializados contêm pré-processadores complexos (`OneHotEncoder`). Executar recarga a cada clique degradaria a responsividade do app.
+- **Decisão:**
+  1. Utilizar `@st.cache_data` para ler o arquivo `enem_2023_analitico.parquet` e criar as variáveis calculadas apenas uma vez na inicialização.
+  2. Utilizar `@st.cache_resource` para manter os pipelines serializados de regressão e classificação em memória persistente.
+- **Justificativa:** Reduz o tempo de resposta das transições e simulações para **menos de 0,1 segundo**, garantindo experiência ultra-fluida.
+
+---
+
+### ADR-13: Amostragem Inteligente para Renderização Gráfica em Plotly
+- **Contexto:** Renderizar 2,68 milhões de pontos em gráficos interativos de histograma e dispersão via WebGL/Canvas causa travamento do navegador do cliente.
+- **Decisão:** Calcular métricas, KPIs, rankings por UF e gráficos de barras agregados sobre a **totalidade dos 2,68 milhões de registros**, mas aplicar amostragem aleatória representativa ($N = 40.000$) para histogramas com marginal boxplot.
+- **Justificativa:** Elimina a latência de transferência JSON no navegador sem alterar a forma das distribuições estatísticas.
+
+

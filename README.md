@@ -352,10 +352,12 @@ Ao longo do projeto, todas as decisões técnicas, hipóteses, resultados e apre
 
 ## Sprint 6 — Dashboard
 
-- [ ] Desenvolvimento da aplicação.
-- [ ] Visualizações interativas.
-- [ ] Storytelling dos resultados.
-- [ ] Publicação do projeto.
+- [x] Desenvolvimento da aplicação web interativa em Streamlit (`app/streamlit_app.py`).
+- [x] Implementação de 5 abas modulares (Visão Geral, Desigualdades, Geografia, Simulador ML e Metodologia).
+- [x] Visualizações interativas com Plotly (histogramas, boxplots, rankings por UF e gráficos de gaps).
+- [x] Integração do Simulador Preditivo What-If em tempo real consumindo os modelos treinados na Sprint 5.
+- [x] Otimização de performance com `@st.cache_data` sobre base Parquet de 2,68M de linhas.
+- [x] Registro das decisões técnicas ADR-11 a ADR-13 em `docs/06_decisions.md`.
 
 ---
 
@@ -363,16 +365,16 @@ Ao longo do projeto, todas as decisões técnicas, hipóteses, resultados e apre
 
 | Item | Situação |
 |------|----------|
-| **Fase Atual** | Sprint 6 — Dashboard Interativo com Streamlit |
-| **Etapa em Desenvolvimento** | Construção do aplicativo web analítico (`app/`) e simulador preditivo |
+| **Fase Atual** | Sprint 7 — Engenharia de Software & Modularização |
+| **Etapa em Desenvolvimento** | Refatoração de código em módulos reutilizáveis (`src/`) e testes |
 | **Última Atualização** | Novembro de 2026 |
-| **Status Geral** | 🟡 Em desenvolvimento (Sprints 1 a 5 concluídas) |
+| **Status Geral** | 🟡 Em desenvolvimento (Sprints 1 a 6 concluídas) |
 
 ### Próximos Passos
 
-- Estruturação do aplicativo interativo `app/streamlit_app.py` com abas analíticas e KPIs.
-- Integração dos modelos serializados `models/regressor_enem2023.joblib` e `models/classificador_enem2023.joblib` em simulador *What-if*.
-- Otimização de consultas com cache de dados (`@st.cache_data`) e filtros reativos.
+- Modularização dos scripts em pacotes Python estruturados em `src/` (`ingestion`, `processing`, `features`, `modeling`).
+- Criação de pipeline CLI para execução ponta a ponta reproduzível.
+- Configuração de testes automatizados com `pytest`.
 
 ---
 
@@ -423,6 +425,14 @@ Crie um banco de dados PostgreSQL e importe os microdados processados seguindo a
 ## 7. Execute os notebooks
 
 Após configurar o ambiente e o banco de dados, os notebooks podem ser executados normalmente através do Jupyter Notebook ou Visual Studio Code.
+
+## 8. Execute o Dashboard Interativo (Streamlit)
+
+Para iniciar o painel analítico com filtros dinâmicos e o simulador preditivo de Machine Learning:
+
+```bash
+streamlit run app/streamlit_app.py
+```
 
 ---
 
