@@ -341,10 +341,12 @@ Ao longo do projeto, todas as decisões técnicas, hipóteses, resultados e apre
 
 ## Sprint 5 — Machine Learning
 
-- [ ] Preparação dos dados.
-- [ ] Engenharia de atributos.
-- [ ] Treinamento dos modelos.
-- [ ] Avaliação dos resultados.
+- [x] Preparação dos dados e blindagem contra *data leakage*.
+- [x] Engenharia de atributos (`classe_renda`, `in_vulnerabilidade`, `in_idade_regular`, `fl_alto_desempenho`).
+- [x] Modelagem de Regressão (Dummy vs. Ridge vs. HistGradientBoosting — $R^2 = 0{,}295$, RMSE = 80,1 pts).
+- [x] Modelagem de Classificação Top 20% (Dummy vs. Logistic Regression vs. HistGradientBoosting — ROC-AUC = 0,804, PR-AUC = 0,535).
+- [x] Explicabilidade e interpretabilidade com SHAP Values (`TreeExplainer`) e Permutation Importance.
+- [x] Serialização de modelos treinados em `models/` e teste de inferência em produção.
 
 ---
 
@@ -361,17 +363,16 @@ Ao longo do projeto, todas as decisões técnicas, hipóteses, resultados e apre
 
 | Item | Situação |
 |------|----------|
-| **Fase Atual** | Sprint 5 — Machine Learning & Feature Engineering |
-| **Etapa em Desenvolvimento** | Engenharia de Atributos e Modelagem Preditiva |
+| **Fase Atual** | Sprint 6 — Dashboard Interativo com Streamlit |
+| **Etapa em Desenvolvimento** | Construção do aplicativo web analítico (`app/`) e simulador preditivo |
 | **Última Atualização** | Novembro de 2026 |
-| **Status Geral** | 🟡 Em desenvolvimento |
+| **Status Geral** | 🟡 Em desenvolvimento (Sprints 1 a 5 concluídas) |
 
 ### Próximos Passos
 
-- Criação de variáveis derivadas (`classe_renda`, `in_vulnerabilidade`, nota média geral).
-- Treinamento e comparação de modelos preditivos (Regressão e Classificação).
-- Interpretabilidade de modelos via Feature Importance e SHAP Values.
-- Desenvolvimento do dashboard interativo em Streamlit.
+- Estruturação do aplicativo interativo `app/streamlit_app.py` com abas analíticas e KPIs.
+- Integração dos modelos serializados `models/regressor_enem2023.joblib` e `models/classificador_enem2023.joblib` em simulador *What-if*.
+- Otimização de consultas com cache de dados (`@st.cache_data`) e filtros reativos.
 
 ---
 

@@ -56,3 +56,40 @@ O objetivo é manter a rastreabilidade das escolhas de engenharia, governança e
 - **Decisão:**
   - **Fase de Análise e Relatórios (Sprint 4):** Matplotlib e Seaborn para exportação de gráficos estáticos em alta resolução (PNG) salvos em `reports/figures/`, garantindo renderização instantânea no GitHub e em relatórios markdown.
   - **Fase de Aplicação (Sprint 6):** Plotly para gráficos dinâmicos e interativos integrados ao Streamlit.
+
+---
+
+## 3. Decisões da Sprint 5 (Engenharia de Features & Machine Learning)
+
+---
+
+### ADR-07: Definição do Target de Classificação por Percentil Relativo (Top 20% — $P_{80}$)
+- **Contexto:** Havia necessidade de definir um target binário para modelar a probabilidade de alta performance no ENEM, associada a notas de corte de cursos concorridos em universidades públicas.
+- **Decisão:** Adotar como nota de corte o **Percentil 80 da nota média geral nacional** ($P_{80} = 623{,}04$ pontos), gerando a flag binária `fl_alto_desempenho`.
+- **Justificativa:** Um corte absoluto arbitrário (ex.: $\ge 650$ pontos) varia dependendo da dificuldade e calibração anual da TRI. O percentil 80 estabelece uma definição estável e balanceada (20% classe positiva vs. 80% classe negativa), permitindo avaliação fidedigna por PR-AUC e ROC-AUC sem inflação artificial por desbalanceamento severo.
+- **Impacto:** O modelo de classificação atinge ROC-AUC de $0{,}804$ e PR-AUC de $0{,}535$ (contra baseline aleatório de $0{,}200$).
+
+---
+
+### ADR-08: Blindagem Metodológica contra Vazamento de Dados (*Anti-Data Leakage*)
+- **Contexto:** O objetivo de negócio é prever o desempenho do candidato a partir do seu perfil socioeducacional prévio à realização do exame.
+- **Decisão:**
+  1. A matriz de features ($X$) é composta **exclusivamente por variáveis pré-prova** (renda familiar, tipo de escola, acesso à internet, raça, sexo, idade e localização geográfica).
+  2. Todas as notas parciais (`NU_NOTA_*`) e indicadores de presença/ausência pós-prova são terminantemente excluídos de $X$.
+  3. A divisão Treino/Teste (80% / 20%) é realizada antes de qualquer transformação, e os encoders/transformadores são ajustados (`fit`) **estritamente sobre o conjunto de treino**.
+- **Justificativa:** Previne estimativas superotimistas e garante que os modelos sejam utilizáveis no mundo real para simulações ex-ante (como no aplicativo Streamlit da Sprint 6).
+
+---
+
+### ADR-09: Arquitetura de Modelagem em Larga Escala via `HistGradientBoosting`
+- **Contexto:** O conjunto de treino contém mais de 2,14 milhões de registros com variáveis categóricas de alta cardinalidade (27 UFs, 17 classes de renda). Algoritmos tradicionais como `RandomForestClassifier` exigem dezenas de gigabytes de RAM e horas de processamento.
+- **Decisão:** Utilizar `HistGradientBoostingRegressor` e `HistGradientBoostingClassifier` encapsulados em `Pipeline` com `ColumnTransformer`.
+- **Justificativa:** O algoritmo agrupa features contínuas em até 256 bins de histogramas inteiros, permitindo treinamento completo em **menos de 35 segundos** com uso modesto de memória RAM (< 1 GB) e superando consistentemente os baselines lineares (Ridge $R^2 = 0{,}258 \to$ HistGB $R^2 = 0{,}295$; Regressão Logística ROC-AUC $0{,}790 \to$ HistGB ROC-AUC $0{,}804$).
+
+---
+
+### ADR-10: Explicabilidade Global e Amostragem Representativa para SHAP Values
+- **Contexto:** O cálculo de valores Shapley (`shap.TreeExplainer`) possui complexidade computacional proporcional ao tamanho do conjunto de avaliação ($N = 535.653$).
+- **Decisão:** Calcular os valores SHAP sobre uma **amostra estatisticamente representativa de $N = 5.000$ participantes** do conjunto de teste (com semente fixa `random_state=42`).
+- **Justificativa:** Para um universo de 535 mil candidatos, uma amostra aleatória de 5.000 instâncias atinge margem de erro inferior a $1{,}4\%$ com $95\%$ de nível de confiança, reduzindo o tempo de cálculo de mais de 30 minutos para apenas **3,6 segundos**, viabilizando os gráficos Beeswarm e Bar Plot de impacto médio com total confiabilidade estatística.
+

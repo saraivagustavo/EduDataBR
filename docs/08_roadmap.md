@@ -27,8 +27,8 @@ flowchart LR
 | **Sprint 2** | Entendimento dos Dados (Data Understanding) | Dicionário de dados, perguntas de negócio, hipóteses e qualidade | ✅ Concluída |
 | **Sprint 3** | Engenharia & SQL Analytics | Carga no PostgreSQL, índices, views analíticas e queries avançadas | ✅ Concluída |
 | **Sprint 4** | Limpeza & Análise Exploratória (EDA) | Tratamento fino, formato parquet, estatística descritiva e gráficos | ✅ Concluída |
-| **Sprint 5** | Engenharia de Features & Machine Learning | Novas variáveis, modelos de regressão/classificação e explicabilidade | 🟡 **Em Andamento** *(Ponto Atual)* |
-| **Sprint 6** | Dashboard Interativo (Data App) | Interface em Streamlit com filtros dinâmicos e gráficos interativos | ⚪ A Iniciar |
+| **Sprint 5** | Engenharia de Features & Machine Learning | Novas variáveis, modelos de regressão/classificação e explicabilidade | ✅ Concluída |
+| **Sprint 6** | Dashboard Interativo (Data App) | Interface em Streamlit com filtros dinâmicos e gráficos interativos | 🟡 **Em Andamento** *(Ponto Atual)* |
 | **Sprint 7** | Engenharia de Software & Modularização | Migração de notebooks para `src/`, pipeline reproduzível e testes | ⚪ A Iniciar |
 | **Sprint 8** | Storytelling, Relatório Final & Portfólio | Relatório executivo de insights, deploy na nuvem e polimento do README | ⚪ A Iniciar |
 
@@ -134,22 +134,38 @@ flowchart LR
 ### Sprint 5 — Engenharia de Features & Modelagem de Machine Learning
 > **Objetivo:** Criar variáveis derivadas com valor analítico e treinar modelos de Machine Learning para avaliar poder preditivo e fatores de impacto no desempenho.
 
-- [ ] Engenharia de Atributos:
-  - `nu_nota_media_geral`: Média aritmética simples ou ponderada das 5 provas.
-  - `in_faixa_alta_renda`: Agrupamento categórico das 17 faixas de renda em classes consolidadas (Baixa, Média, Alta).
-  - `in_vulnerabilidade`: Índice composto (ausência de internet + baixa renda).
-  - `target_classificacao`: Classificação de candidatos com alto rendimento.
-- [ ] Modelagem Preditiva (`notebooks/04_machine_learning.ipynb`):
-  - **Problema de Regressão**: Prever a nota média geral com base nas características socioeconômicas e educacionais.
-    - Modelos: Regressão Linear, Ridge, Random Forest e LightGBM/XGBoost.
-    - Métricas: RMSE, MAE, R².
-  - **Interpretabilidade**: Análise de importância de atributos (Feature Importance e SHAP Values) para comprovar quais fatores mais influenciam o desempenho.
-  - Validação cruzada e separação treino/teste sem vazamento de dados (*data leakage*).
+- [x] Engenharia de Atributos:
+  - `nu_nota_media_geral`: Média aritmética simples das 5 provas ($y_{\text{reg}}$).
+  - `fl_alto_desempenho`: Classificação binária de excelência (Percentil 80 nacional $\ge 623{,}04$ pts, $y_{\text{clf}}$).
+  - `classe_renda`: Agrupamento consolidado das 17 faixas em Baixa (A-C), Média (D-G) e Alta (H-Q).
+  - `in_vulnerabilidade`: Indicador composto de exclusão digital e econômica (Baixa renda + Sem internet).
+  - `in_idade_regular`: Participantes na faixa etária padrão de conclusão ($\le 18$ anos).
+- [x] Blindagem contra Data Leakage:
+  - Exclusão absoluta de notas individuais em $X$.
+  - Split 80/20 com pré-processador (`OneHotEncoder`) ajustado (`fit`) estritamente no conjunto de treino.
+- [x] Modelagem Preditiva (`notebooks/04_machine_learning.ipynb`):
+  - **Problema de Regressão**: Estimação da nota média geral.
+    - Dummy ($R^2 = 0{,}000$, RMSE = 95,3 pts) vs. Ridge ($R^2 = 0{,}258$, RMSE = 82,1 pts) vs. HistGradientBoosting ($R^2 = 0{,}295$, RMSE = 80,1 pts, MAE = 62,9 pts).
+  - **Problema de Classificação**: Previsão de alto desempenho (Top 20%).
+    - Dummy (ROC-AUC = 0,500, PR-AUC = 0,200) vs. Regressão Logística (ROC-AUC = 0,790, PR-AUC = 0,500) vs. HistGradientBoosting (ROC-AUC = 0,804, PR-AUC = 0,535, F1 = 0,422).
+- [x] Interpretabilidade & Explicabilidade:
+  - Importância Global de Features por permutação (comprovando renda familiar e escola privada como principais fatores).
+  - SHAP Values via `TreeExplainer` em amostra de 5.000 instâncias (Beeswarm e Bar Plot de impacto médio absoluto salvos em `reports/figures/`).
+- [x] Persistência de Modelos:
+  - Pipelines completos serializados em `models/regressor_enem2023.joblib` e `models/classificador_enem2023.joblib`.
+  - Teste de inferência validado em perfis contrastantes (gap de 206 pontos na nota prevista).
+- [x] Registro das decisões técnicas ADR-07 a ADR-10 em `docs/06_decisions.md`.
 
 **Entregáveis:**
 - `notebooks/04_machine_learning.ipynb`
-- Tabela comparativa de modelos e métricas
-- Gráficos SHAP e análise de importância de variáveis
+- `models/regressor_enem2023.joblib` e `models/classificador_enem2023.joblib`
+- `models/README.md`
+- Figuras em `reports/figures/`:
+  - `ml_regressao_real_vs_pred.png`
+  - `ml_classificacao_roc_pr.png`
+  - `ml_feature_importance.png`
+  - `ml_shap_summary.png`
+- Decisões ADR-07 a ADR-10 em `docs/06_decisions.md`
 
 ---
 
