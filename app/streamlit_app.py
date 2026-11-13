@@ -1,6 +1,6 @@
 """
 EduDataBR — Painel Analítico & Preditivo ENEM 2023
-Aplicação Web Interativa com Acessibilidade, Tema Claro/Escuro e Paleta Azul Pastel & Bege.
+Aplicação Web Interativa com Acessibilidade, Tema Claro/Escuro Dinâmico e Paleta Azul Pastel & Bege.
 
 Autor: Gustavo Saraiva
 Repositório: https://github.com/saraivagustavo/EduDataBR
@@ -27,40 +27,57 @@ st.set_page_config(
 # ==============================================================================
 # 2. GERENCIAMENTO DE TEMA (CLARO / ESCURO) E PALETA DE CORES ACESSÍVEL
 # ==============================================================================
-if "theme" not in st.session_state:
-    st.session_state.theme = "light"
+if "app_theme" not in st.session_state:
+    st.session_state["app_theme"] = "Claro"
 
-# Toggle de tema na Sidebar
-st.sidebar.markdown("### Aparência e Acessibilidade")
+# Seletor de Tema na Sidebar (com chave única para evitar duplicação de estado)
+st.sidebar.markdown("### Aparência")
 tema_opcao = st.sidebar.radio(
-    "Modo de Exibição",
-    ["Claro (Off-white / Bege / Azul Pastel)", "Escuro (Slate Navy / Azul Pastel)"],
-    index=0 if st.session_state.theme == "light" else 1,
-    label_visibility="collapsed"
+    "Selecione o Modo de Exibição",
+    ["Claro", "Escuro"],
+    key="app_theme",
+    horizontal=True,
+    help="Alterne entre o tema Claro (Off-white / Bege / Azul Pastel) e Escuro (Slate Navy / Azul Pastel)."
 )
-st.session_state.theme = "dark" if "Escuro" in tema_opcao else "light"
-IS_DARK = st.session_state.theme == "dark"
+IS_DARK = (tema_opcao == "Escuro")
 
-# Definição dos Tokens de Cores (Paleta Azul Pastel, Bege/Off-white e Alto Contraste WCAG)
+# Definição dos Tokens de Cores Rigorosamente Acessíveis (WCAG AAA/AA)
 if not IS_DARK:
     # --- TEMA CLARO ---
-    c_bg = "#fbfbfa"                  # Fundo principal off-white linho
-    c_sidebar_bg = "#f5f3ee"          # Sidebar bege suave
+    c_bg = "#fbfbfa"                  # Fundo principal off-white suave
+    c_sidebar_bg = "#f4f1ea"          # Sidebar bege areia suave
     c_card_bg = "#ffffff"             # Fundo dos cartões em branco puro
     c_card_border = "#e2ded4"         # Borda suave tom areia/bege
-    c_card_hover = "#d3cdbf"
+    c_card_hover = "#d0c9bd"
     c_text_primary = "#182230"        # Títulos e números em grafite marinho (contraste 14:1)
-    c_text_secondary = "#3b4758"      # Texto de corpo de alta legibilidade (contraste 7:1)
-    c_text_muted = "#5a687d"          # Labels e subtítulos (contraste > 4.8:1)
-    c_header_bg = "linear-gradient(135deg, #2d4563 0%, #3d597a 100%)" # Azul marinho ardósia
+    c_text_secondary = "#334155"      # Texto de corpo em slate escuro (contraste 8.5:1)
+    c_text_muted = "#475569"          # Labels e subtítulos (contraste 6:1)
+
+    # Controles de Entrada (Selectbox, Slider, Radio)
+    c_input_bg = "#ffffff"
+    c_input_border = "#cbd5e1"
+    c_input_text = "#0f172a"
+    c_popover_bg = "#ffffff"
+    c_popover_hover = "#f1f5f9"
+
+    # Abas (Tabs)
+    c_tab_text = "#334155"            # Abas inativas: grafite escuro bem legível!
+    c_tab_active = "#1e3a8a"          # Aba ativa: azul marinho profundo
+    c_tab_indicator = "#3b82f6"       # Linha indicadora ativa
+
+    # Cabeçalho & Badges
+    c_header_bg = "linear-gradient(135deg, #2d4563 0%, #3d597a 100%)"
     c_header_text = "#ffffff"
     c_header_sub = "#e2e8f0"
     c_badge_bg = "#edf3f9"
-    c_badge_text = "#244265"
-    c_kpi_val = "#162333"
-    c_delta_pos = "#1e724b"           # Verde sálvia contrastante
-    c_delta_neg = "#a82828"           # Vermelho terracota contrastante
-    c_sim_card_bg = "linear-gradient(135deg, #ffffff 0%, #f4f6fa 100%)"
+    c_badge_text = "#1e3a8a"
+    c_badge_border = "#cbd5e1"
+
+    # KPIs & Status
+    c_kpi_val = "#0f172a"
+    c_delta_pos = "#15803d"           # Verde escuro de alto contraste
+    c_delta_neg = "#b91c1c"           # Vermelho escuro de alto contraste
+    c_sim_card_bg = "linear-gradient(135deg, #ffffff 0%, #f4f7fb 100%)"
     c_sim_card_border = "#4a729c"
     c_footer_bg = "#ffffff"
     c_footer_border = "#e2ded4"
@@ -69,7 +86,7 @@ if not IS_DARK:
     p_primary = "#4a729c"            # Azul pastel clássico
     p_secondary = "#c4b5a5"          # Bege areia suave
     p_accent = "#6b93c0"             # Azul pastel suave
-    p_grid = "#eae6de"
+    p_grid = "#e2ded4"
     p_font = "#182230"
     p_colorscale = [(0, "#e8eef6"), (0.5, "#7b9ec3"), (1, "#2c486a")]
     p_gauge_bar = "#3d648f"
@@ -89,11 +106,28 @@ else:
     c_text_primary = "#f8fafc"        # Títulos quase brancos (contraste 15:1)
     c_text_secondary = "#e2e8f0"      # Texto de corpo claro e legível
     c_text_muted = "#94a3b8"          # Labels e subtítulos
+
+    # Controles de Entrada (Selectbox, Slider, Radio)
+    c_input_bg = "#1e293b"
+    c_input_border = "#334155"
+    c_input_text = "#f8fafc"
+    c_popover_bg = "#1e293b"
+    c_popover_hover = "#334155"
+
+    # Abas (Tabs)
+    c_tab_text = "#94a3b8"            # Abas inativas em cinza claro nítido
+    c_tab_active = "#ffffff"          # Aba ativa em branco puro
+    c_tab_indicator = "#60a5fa"       # Linha indicadora em azul pastel claro
+
+    # Cabeçalho & Badges
     c_header_bg = "linear-gradient(135deg, #131b26 0%, #1e293b 100%)"
     c_header_text = "#f8fafc"
     c_header_sub = "#94a3b8"
     c_badge_bg = "#223347"
     c_badge_text = "#a3c8f3"
+    c_badge_border = "#2a3b50"
+
+    # KPIs & Status
     c_kpi_val = "#f8fafc"
     c_delta_pos = "#4ade80"           # Verde pastel
     c_delta_neg = "#f87171"           # Vermelho pastel
@@ -117,22 +151,22 @@ else:
         {'range': [60, 100], 'color': '#1c3e2e'}
     ]
 
-# Injeção de CSS Dinâmico
+# Injeção de CSS Dinâmico com Especificidade Total
 CUSTOM_CSS = f"""
 <style>
-    /* Estilização Geral do App */
-    .stApp, .main, [data-testid="stAppViewContainer"], [data-testid="stMain"] {{
+    /* 1. Fundo Global e Texto */
+    .stApp, .main, [data-testid="stAppViewContainer"], [data-testid="stMain"], section.main {{
         background-color: {c_bg} !important;
         color: {c_text_secondary} !important;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }}
     
-    /* Barra Lateral */
-    section[data-testid="stSidebar"] {{
+    /* 2. Barra Lateral (Sidebar) */
+    section[data-testid="stSidebar"], section[data-testid="stSidebar"] > div {{
         background-color: {c_sidebar_bg} !important;
         border-right: 1px solid {c_card_border} !important;
     }}
-    section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] span {{
+    section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span {{
         color: {c_text_secondary} !important;
         font-weight: 500;
     }}
@@ -140,7 +174,79 @@ CUSTOM_CSS = f"""
         color: {c_text_primary} !important;
     }}
     
-    /* Header Principal */
+    /* 3. Títulos e Tipografia Geral */
+    h1, h2, h3, h4, h5, h6, [data-testid="stMarkdownContainer"] h1, [data-testid="stMarkdownContainer"] h2, [data-testid="stMarkdownContainer"] h3, [data-testid="stMarkdownContainer"] h4 {{
+        color: {c_text_primary} !important;
+        font-weight: 700 !important;
+    }}
+    p, span, div[data-testid="stMarkdownContainer"] p {{
+        color: {c_text_secondary} !important;
+    }}
+    
+    /* 4. RÓTULOS (LABELS) DE TODOS OS WIDGETS - 100% VISÍVEIS E LEGÍVEIS */
+    label, label p, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p, .stSelectbox label, .stSlider label, .stRadio label {{
+        color: {c_text_secondary} !important;
+        font-size: 0.92rem !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
+    }}
+
+    /* 5. ABAS (TABS) - ALTO CONTRASTE E SEM TEXTO APAGADO */
+    div[data-testid="stTabs"] {{
+        border-bottom: 1px solid {c_card_border} !important;
+        margin-bottom: 1.5rem !important;
+    }}
+    button[data-baseweb="tab"] {{
+        background-color: transparent !important;
+        border: none !important;
+        padding: 0.75rem 1.25rem !important;
+    }}
+    button[data-baseweb="tab"] p, button[data-baseweb="tab"] div, button[data-baseweb="tab"] span {{
+        color: {c_tab_text} !important;
+        font-size: 0.95rem !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
+    }}
+    button[data-baseweb="tab"][aria-selected="true"] p, button[data-baseweb="tab"][aria-selected="true"] div, button[data-baseweb="tab"][aria-selected="true"] span {{
+        color: {c_tab_active} !important;
+        font-weight: 700 !important;
+    }}
+    button[data-baseweb="tab"][aria-selected="true"] {{
+        border-bottom: 3px solid {c_tab_indicator} !important;
+    }}
+
+    /* 6. SELECTBOXES E MENUS DROPDOWN (FIM DAS CAIXAS ESCURAS NO MODO CLARO) */
+    div[data-baseweb="select"] > div {{
+        background-color: {c_input_bg} !important;
+        border: 1px solid {c_input_border} !important;
+        border-radius: 6px !important;
+    }}
+    div[data-baseweb="select"] span, div[data-baseweb="select"] div {{
+        color: {c_input_text} !important;
+    }}
+    div[data-baseweb="popover"], div[data-baseweb="menu"], ul[role="listbox"] {{
+        background-color: {c_popover_bg} !important;
+        border: 1px solid {c_input_border} !important;
+    }}
+    ul[role="listbox"] li {{
+        background-color: {c_popover_bg} !important;
+        color: {c_input_text} !important;
+    }}
+    ul[role="listbox"] li:hover {{
+        background-color: {c_popover_hover} !important;
+        color: {c_input_text} !important;
+    }}
+    
+    /* 7. RADIOS E SLIDERS */
+    div[data-testid="stRadio"] label, div[data-testid="stRadio"] p, div[data-testid="stRadio"] span {{
+        color: {c_text_secondary} !important;
+        font-weight: 500 !important;
+    }}
+    div[data-testid="stSlider"] div, div[data-testid="stSlider"] span {{
+        color: {c_text_secondary} !important;
+    }}
+    
+    /* 8. Cabeçalho Principal */
     .app-header {{
         background: {c_header_bg};
         color: {c_header_text};
@@ -160,11 +266,11 @@ CUSTOM_CSS = f"""
     .app-header p {{
         margin: 0.5rem 0 0 0;
         font-size: 1.05rem;
-        color: {c_header_sub};
+        color: {c_header_sub} !important;
         line-height: 1.5;
     }}
     
-    /* Badges */
+    /* 9. Badges */
     .badge {{
         display: inline-block;
         padding: 0.3rem 0.75rem;
@@ -175,10 +281,10 @@ CUSTOM_CSS = f"""
         margin-top: 0.75rem;
         background-color: {c_badge_bg};
         color: {c_badge_text};
-        border: 1px solid {c_card_border};
+        border: 1px solid {c_badge_border};
     }}
     
-    /* Cartões de KPI */
+    /* 10. Cartões de KPI */
     .kpi-card {{
         background-color: {c_card_bg};
         border: 1px solid {c_card_border};
@@ -198,22 +304,22 @@ CUSTOM_CSS = f"""
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        color: {c_text_muted};
+        color: {c_text_muted} !important;
         margin-bottom: 0.35rem;
     }}
     .kpi-value {{
         font-size: 1.85rem;
         font-weight: 700;
-        color: {c_kpi_val};
+        color: {c_kpi_val} !important;
         line-height: 1.2;
     }}
     .kpi-subtitle {{
         font-size: 0.82rem;
-        color: {c_text_muted};
+        color: {c_text_muted} !important;
         margin-top: 0.4rem;
     }}
     
-    /* Painéis e Cards de Conteúdo */
+    /* 11. Painéis e Cards de Conteúdo */
     .content-card {{
         background-color: {c_card_bg};
         border: 1px solid {c_card_border};
@@ -223,7 +329,7 @@ CUSTOM_CSS = f"""
         margin-bottom: 1.5rem;
     }}
     
-    /* Simulador */
+    /* 12. Simulador */
     .sim-result-card {{
         background: {c_sim_card_bg};
         border: 2px solid {c_sim_card_border};
@@ -233,25 +339,7 @@ CUSTOM_CSS = f"""
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
     }}
     
-    /* Abas */
-    button[data-baseweb="tab"] {{
-        font-size: 0.92rem !important;
-        font-weight: 600 !important;
-        padding: 0.65rem 1.2rem !important;
-        color: {c_text_muted} !important;
-    }}
-    button[data-baseweb="tab"][aria-selected="true"] {{
-        color: {c_text_primary} !important;
-        border-bottom-color: {p_primary} !important;
-    }}
-    
-    /* Títulos gerais */
-    h1, h2, h3, h4 {{
-        color: {c_text_primary} !important;
-        font-weight: 700 !important;
-    }}
-    
-    /* Dataframe e Tabelas */
+    /* 13. Dataframe e Tabelas */
     [data-testid="stDataFrame"] {{
         border: 1px solid {c_card_border};
         border-radius: 8px;
@@ -690,7 +778,7 @@ with tab2:
                 y='Taxa Zero (%)',
                 text=df_zero_agg['Taxa Zero (%)'].apply(lambda x: f"{x:.2f}%"),
                 color='escola_desc',
-                color_discrete_map={'Pública': '#a82828' if not IS_DARK else '#f87171', 'Privada': p_primary},
+                color_discrete_map={'Pública': '#b91c1c' if not IS_DARK else '#f87171', 'Privada': p_primary},
                 labels={'escola_desc': 'Rede Escolar', 'Taxa Zero (%)': 'Taxa de Zeros (%)'}
             )
             apply_chart_style(fig_zero, height=420)
